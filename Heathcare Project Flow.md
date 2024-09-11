@@ -357,6 +357,9 @@ This project demonstrates an end-to-end Azure Data Engineering solution for a he
 
 #### Actual Pipeline
 
+# Azure Data Factory Pipelines Flow for Healthcare Data Engineering
+
+```json
 {
   "Pipelines": [
     {
