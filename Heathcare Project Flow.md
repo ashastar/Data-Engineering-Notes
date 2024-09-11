@@ -218,3 +218,278 @@ This project demonstrates the implementation of an end-to-end data engineering p
 
 ### Limitations:
 - **Data Size**: This example used a small dataset, which may not represent real-w
+
+
+# End-to-End Azure Data Engineering Pipeline for Healthcare
+
+## Project Overview
+This project demonstrates an end-to-end Azure Data Engineering solution for a healthcare system. The pipeline moves data from an on-premises SQL Server to Snowflake, with all intermediate layers stored in Azure Data Lake Storage (ADLS) using the Medallion Architecture (Bronze, Silver, Gold).
+
+- **Source**: On-premises SQL Server
+- **Intermediate Layers**: Azure Data Lake Storage (ADLS)
+- **Destination**: Snowflake
+- **Transformations**: Done using Azure Databricks (PySpark)
+- **Pipeline Automation**: Executed via Azure Data Factory (ADF) pipelines
+
+## Step-by-Step ADF Pipeline Design
+
+### 1. Setup Linked Services in ADF
+
+#### 1.1. Linked Service for SQL Server (Source)
+- **Linked Service Type**: Azure SQL Server
+- **Authentication**: SQL Authentication or Windows Authentication
+- **Connection**: Establish using Self-Hosted Integration Runtime (SHIR)
+
+#### 1.2. Linked Service for ADLS (Intermediate Layers)
+- **Linked Service Type**: Azure Data Lake Storage Gen2
+- **Authentication**: Managed Identity or Service Principal
+- **Storage URL**: Your Azure Data Lake account URL
+
+#### 1.3. Linked Service for Snowflake (Destination)
+- **Linked Service Type**: Snowflake
+- **Snowflake Configuration**:
+  - Account: Snowflake account name
+  - Warehouse: Target Snowflake warehouse
+  - Database: Target Snowflake database
+  - Schema: Snowflake schema for tables
+
+### 2. ADF Pipeline Design
+
+#### 2.1. Pipeline 1: Ingest Data from SQL Server to ADLS (Bronze Layer)
+
+- **Pipeline Name**: `IngestFromSQLServerToADLS_Bronze`
+- **Activity**: Copy Data
+  - **Source**:
+    - Linked Service: On-premises SQL Server
+    - Table(s): `Patients`, `Doctors`, `Appointments`, etc.
+    - Enable Incremental Loads: Use `modified_date` or `created_date` if available.
+  - **Sink**:
+    - Linked Service: ADLS Gen2
+    - Path: `adl://yourstorageaccount.dfs.core.windows.net/bronze/{table_name}/{date_partition}/`
+    - Format: **Parquet** or **CSV**
+
+- **Trigger**: Schedule the pipeline to run daily/hourly based on your requirements.
+
+#### 2.2. Pipeline 2: Transform Data from Bronze to Silver using Databricks
+
+- **Pipeline Name**: `TransformBronzeToSilver`
+- **Activity**: Databricks Notebook
+  - **Linked Service**: Databricks Linked Service
+  - **Notebook**: Databricks notebook for data transformation from Bronze to Silver.
+    - Input Path: Bronze layer in ADLS (`adl://yourstorageaccount.dfs.core.windows.net/bronze/...`)
+    - Transformations:
+      - Data cleaning (e.g., handle missing values, remove duplicates).
+      - Apply business rules and standards (e.g., normalize medical record formats).
+    - Output Path: Silver layer (`adl://yourstorageaccount.dfs.core.windows.net/silver/...`)
+    - Format: **Delta**
+
+- **Trigger**: This pipeline is triggered after the ingestion pipeline finishes.
+
+#### 2.3. Pipeline 3: Transform Data from Silver to Gold using Databricks
+
+- **Pipeline Name**: `TransformSilverToGold`
+- **Activity**: Databricks Notebook
+  - **Linked Service**: Databricks Linked Service
+  - **Notebook**: Databricks notebook for data transformation from Silver to Gold.
+    - Input Path: Silver layer in ADLS (`adl://yourstorageaccount.dfs.core.windows.net/silver/...`)
+    - Transformations:
+      - Aggregation and enrichment of data.
+      - Example: Combine patient, appointment, and billing data to analyze healthcare performance.
+    - Output Path: Gold layer (`adl://yourstorageaccount.dfs.core.windows.net/gold/...`)
+    - Format: **Delta**
+
+- **Trigger**: This pipeline is triggered after the Silver transformation pipeline completes.
+
+#### 2.4. Pipeline 4: Load Data from ADLS (Gold) to Snowflake
+
+- **Pipeline Name**: `LoadGoldToSnowflake`
+- **Activity**: Copy Data
+  - **Source**:
+    - Linked Service: ADLS Gen2 (Gold Layer)
+    - Path: `adl://yourstorageaccount.dfs.core.windows.net/gold/{table_name}/`
+    - Format: **Delta** or **Parquet**
+  - **Sink**:
+    - Linked Service: Snowflake
+    - Destination: Snowflake tables (e.g., `patients`, `doctors`, `appointments`, etc.)
+    - Configure Upserts: Use Snowflake `MERGE` or `INSERT` as needed
+
+- **Trigger**: Triggered after the data has been transformed into the Gold layer.
+
+---
+
+### 3. Scheduling and Automation
+
+- **ADF Triggers**: Set triggers to automate pipelines in sequence:
+  - Start with the ingestion pipeline (`IngestFromSQLServerToADLS_Bronze`).
+  - Followed by transformation pipelines (`TransformBronzeToSilver`, `TransformSilverToGold`).
+  - End with the loading pipeline (`LoadGoldToSnowflake`).
+  
+- **Monitoring**: Use ADF’s built-in monitoring to track success/failure of each pipeline.
+
+---
+
+## Pipeline Workflow Summary
+
+1. **IngestFromSQLServerToADLS_Bronze**: 
+   - Copies raw data from on-premises SQL Server to ADLS Bronze layer.
+   
+2. **TransformBronzeToSilver**:
+   - Cleanses and standardizes data from Bronze to Silver layer via Databricks.
+   
+3. **TransformSilverToGold**:
+   - Aggregates and transforms Silver data to the final Gold layer via Databricks.
+   
+4. **LoadGoldToSnowflake**:
+   - Loads the final transformed Gold data from ADLS to Snowflake for analytics.
+
+---
+
+- **Medallion Architecture**: 
+  - **Bronze Layer**: Raw data from SQL Server.
+  - **Silver Layer**: Cleansed and standardized data.
+  - **Gold Layer**: Aggregated and enriched data for analysis.
+
+- **Cost Considerations**: 
+  - Optimize the pipeline schedules and resource usage to minimize Azure and Snowflake costs.
+  
+- **Scalability**: 
+  - This architecture can be scaled to handle large datasets by configuring ADF’s parallel copy and Databricks cluster settings.
+
+#### Actual Pipeline
+
+{
+  "Pipelines": [
+    {
+      "PipelineName": "IngestFromSQLServerToADLS_Bronze",
+      "Activities": [
+        {
+          "ActivityType": "Copy Data",
+          "Source": {
+            "Type": "SQL Server",
+            "LinkedService": "SQLServer_OnPremises",
+            "Tables": [
+              "Patients",
+              "Doctors",
+              "Appointments",
+              "MedicalRecords",
+              "Billing"
+            ],
+            "IncrementalLoad": {
+              "Enabled": true,
+              "Column": "ModifiedDate"
+            }
+          },
+          "Sink": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Bronze",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/bronze/{table_name}/{year}/{month}/{day}/",
+            "Format": "Parquet"
+          },
+          "Trigger": "Scheduled",
+          "Frequency": "Daily"
+        }
+      ]
+    },
+    {
+      "PipelineName": "TransformBronzeToSilver",
+      "Activities": [
+        {
+          "ActivityType": "Databricks Notebook",
+          "Source": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Bronze",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/bronze/{table_name}/{year}/{month}/{day}/",
+            "Format": "Parquet"
+          },
+          "Transformation": {
+            "Type": "Databricks",
+            "Notebook": "BronzeToSilverTransformation",
+            "Operations": [
+              "Remove Duplicates",
+              "Handle Missing Data",
+              "Standardize Formats"
+            ]
+          },
+          "Sink": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Silver",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/silver/{table_name}/{year}/{month}/{day}/",
+            "Format": "Delta"
+          },
+          "Trigger": "After Completion",
+          "DependsOn": "IngestFromSQLServerToADLS_Bronze"
+        }
+      ]
+    },
+    {
+      "PipelineName": "TransformSilverToGold",
+      "Activities": [
+        {
+          "ActivityType": "Databricks Notebook",
+          "Source": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Silver",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/silver/{table_name}/{year}/{month}/{day}/",
+            "Format": "Delta"
+          },
+          "Transformation": {
+            "Type": "Databricks",
+            "Notebook": "SilverToGoldTransformation",
+            "Operations": [
+              "Aggregation",
+              "Join Data (Patients + Appointments)",
+              "Business Logic Implementation"
+            ]
+          },
+          "Sink": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Gold",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/gold/{table_name}/{year}/{month}/{day}/",
+            "Format": "Delta"
+          },
+          "Trigger": "After Completion",
+          "DependsOn": "TransformBronzeToSilver"
+        }
+      ]
+    },
+    {
+      "PipelineName": "LoadGoldToSnowflake",
+      "Activities": [
+        {
+          "ActivityType": "Copy Data",
+          "Source": {
+            "Type": "Azure Data Lake Storage Gen2",
+            "LinkedService": "ADLS_Gold",
+            "Path": "adl://yourstorageaccount.dfs.core.windows.net/gold/{table_name}/{year}/{month}/{day}/",
+            "Format": "Delta"
+          },
+          "Sink": {
+            "Type": "Snowflake",
+            "LinkedService": "Snowflake_Target",
+            "Database": "HealthcareDB",
+            "Schema": "public",
+            "TableMapping": {
+              "Patients": "patients",
+              "Doctors": "doctors",
+              "Appointments": "appointments",
+              "MedicalRecords": "medical_records",
+              "Billing": "billing"
+            }
+          },
+          "Transformation": {
+            "Type": "Upsert",
+            "PrimaryKey": "ID",
+            "MergeLogic": {
+              "WhenMatched": "Update",
+              "WhenNotMatched": "Insert"
+            }
+          },
+          "Trigger": "After Completion",
+          "DependsOn": "TransformSilverToGold"
+        }
+      ]
+    }
+  ]
+}
+
+
