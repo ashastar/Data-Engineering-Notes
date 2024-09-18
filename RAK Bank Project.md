@@ -42,3 +42,187 @@ The successful completion of the Azure data migration project resulted in:
 - Faster data processing times, leading to improved customer services.
 - The ability to harness real-time analytics for decision-making processes.
 - Enhanced data security measures to protect sensitive customer information.
+
+
+
+# RAK Bank Azure Data Migration Project - Schema Diagram
+
+## High-Level Schema
+
+The RAK Bank Azure Data Migration project contains the following key entities:
+
+1. **Customers**
+2. **Accounts**
+3. **Transactions**
+4. **Loans**
+5. **Cards**
+6. **Branches**
+7. **Employees**
+8. **Audit**
+
+These entities are interconnected through various relationships such as foreign keys (FKs) to represent the logical flow of data within the bank's system.
+
+---
+
+### Customers Table
+
+| Column Name          | Data Type      | Description                                    |
+|----------------------|----------------|------------------------------------------------|
+| `customer_id`         | INT (PK)       | Unique identifier for the customer             |
+| `first_name`          | VARCHAR(100)   | First name of the customer                     |
+| `last_name`           | VARCHAR(100)   | Last name of the customer                      |
+| `email`               | VARCHAR(255)   | Email address of the customer                  |
+| `phone_number`        | VARCHAR(20)    | Phone number of the customer                   |
+| `date_of_birth`       | DATE           | Customer's date of birth                       |
+| `address`             | VARCHAR(255)   | Address of the customer                        |
+| `city`                | VARCHAR(100)   | City of the customer                           |
+| `country`             | VARCHAR(100)   | Country of the customer                        |
+| `national_id`         | VARCHAR(50)    | National ID number                             |
+| `customer_since`      | DATE           | The date the customer joined                   |
+| `customer_status`     | VARCHAR(50)    | Active/Inactive status                         |
+
+---
+
+### Accounts Table
+
+| Column Name          | Data Type      | Description                                    |
+|----------------------|----------------|------------------------------------------------|
+| `account_id`          | INT (PK)       | Unique identifier for the account              |
+| `customer_id`         | INT (FK)       | Reference to the customer                      |
+| `account_type`        | VARCHAR(50)    | Type of the account (e.g., Savings, Current)   |
+| `balance`             | DECIMAL(15,2)  | Current balance of the account                 |
+| `currency`            | VARCHAR(10)    | Currency of the account (e.g., AED, USD)       |
+| `branch_id`           | INT (FK)       | Branch where the account is held               |
+| `account_status`      | VARCHAR(50)    | Active/Inactive status                         |
+| `date_opened`         | DATE           | Date the account was opened                    |
+
+---
+
+### Transactions Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `transaction_id`       | INT (PK)       | Unique identifier for the transaction          |
+| `account_id`           | INT (FK)       | Reference to the account                       |
+| `transaction_type`     | VARCHAR(50)    | Type of transaction (e.g., Credit, Debit)      |
+| `amount`               | DECIMAL(15,2)  | Transaction amount                             |
+| `transaction_date`     | DATE           | Date of the transaction                        |
+| `description`          | VARCHAR(255)   | Transaction description                        |
+| `balance_after_txn`    | DECIMAL(15,2)  | Account balance after the transaction          |
+| `branch_id`            | INT (FK)       | Branch where the transaction occurred          |
+
+---
+
+### Loans Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `loan_id`              | INT (PK)       | Unique identifier for the loan                 |
+| `customer_id`          | INT (FK)       | Reference to the customer                      |
+| `loan_type`            | VARCHAR(50)    | Type of loan (e.g., Personal, Home, Auto)      |
+| `loan_amount`          | DECIMAL(15,2)  | Total loan amount                              |
+| `interest_rate`        | DECIMAL(5,2)   | Interest rate on the loan                      |
+| `loan_status`          | VARCHAR(50)    | Loan status (e.g., Approved, Pending, Closed)  |
+| `loan_start_date`      | DATE           | Date the loan was issued                       |
+| `loan_end_date`        | DATE           | Date the loan is to be repaid                  |
+
+---
+
+### Cards Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `card_id`              | INT (PK)       | Unique identifier for the card                 |
+| `customer_id`          | INT (FK)       | Reference to the customer                      |
+| `card_type`            | VARCHAR(50)    | Type of card (e.g., Credit, Debit)             |
+| `card_number`          | VARCHAR(16)    | Card number (masked for security)              |
+| `card_status`          | VARCHAR(50)    | Card status (e.g., Active, Blocked)            |
+| `expiry_date`          | DATE           | Expiry date of the card                        |
+| `issue_date`           | DATE           | Date the card was issued                       |
+| `credit_limit`         | DECIMAL(15,2)  | Credit limit (if applicable)                   |
+
+---
+
+### Branches Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `branch_id`            | INT (PK)       | Unique identifier for the branch               |
+| `branch_name`          | VARCHAR(100)   | Name of the branch                             |
+| `branch_code`          | VARCHAR(10)    | Branch code for transactions                   |
+| `city`                 | VARCHAR(100)   | City where the branch is located               |
+| `country`              | VARCHAR(100)   | Country where the branch is located            |
+| `phone_number`         | VARCHAR(20)    | Contact number of the branch                   |
+
+---
+
+### Employees Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `employee_id`          | INT (PK)       | Unique identifier for the employee             |
+| `first_name`           | VARCHAR(100)   | Employee's first name                          |
+| `last_name`            | VARCHAR(100)   | Employee's last name                           |
+| `position`             | VARCHAR(50)    | Job title of the employee                      |
+| `branch_id`            | INT (FK)       | Branch where the employee works                |
+| `email`                | VARCHAR(255)   | Contact email of the employee                  |
+| `phone_number`         | VARCHAR(20)    | Employee's contact number                      |
+| `hire_date`            | DATE           | Date the employee was hired                    |
+| `salary`               | DECIMAL(10,2)  | Employee's salary                              |
+
+---
+
+### Audit Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `audit_id`             | INT (PK)       | Unique identifier for the audit                |
+| `table_name`           | VARCHAR(100)   | Name of the table being audited                |
+| `operation_type`       | VARCHAR(50)    | Type of operation (Insert, Update, Delete)     |
+| `performed_by`         | VARCHAR(100)   | Name or ID of the user who performed the operation |
+| `operation_time`       | TIMESTAMP      | Time the operation was performed               |
+| `details`              | JSON           | Detailed log of changes                        |
+
+---
+
+## Extended Tables for 200 Columns
+
+To complete the schema with 200 columns, the following additional tables can be included:
+
+### Customer Contacts Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `contact_id`           | INT (PK)       | Unique identifier for the contact              |
+| `customer_id`          | INT (FK)       | Reference to the customer                      |
+| `emergency_contact_name` | VARCHAR(100) | Name of the emergency contact                  |
+| `emergency_contact_number` | VARCHAR(20) | Emergency contact number                      |
+
+---
+
+### Loan Payments Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `payment_id`           | INT (PK)       | Unique identifier for the payment              |
+| `loan_id`              | INT (FK)       | Reference to the loan                          |
+| `payment_amount`       | DECIMAL(15,2)  | Amount of the loan payment                     |
+| `payment_date`         | DATE           | Date of the payment                            |
+| `payment_status`       | VARCHAR(50)    | Status of the payment (e.g., Completed, Pending) |
+
+---
+
+### Transaction Fees Table
+
+| Column Name           | Data Type      | Description                                    |
+|-----------------------|----------------|------------------------------------------------|
+| `fee_id`               | INT (PK)       | Unique identifier for the fee                  |
+| `transaction_id`       | INT (FK)       | Reference to the transaction                   |
+| `fee_amount`           | DECIMAL(15,2)  | Fee amount for the transaction                 |
+| `fee_type`             | VARCHAR(50)    | Type of fee (e.g., Service Fee, Penalty)       |
+| `description`          | VARCHAR(255)   | Description of the fee                         |
+
+---
+
+
+
