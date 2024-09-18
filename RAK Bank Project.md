@@ -225,4 +225,214 @@ To complete the schema with 200 columns, the following additional tables can be 
 ---
 
 
+# Azure Data Factory Pipeline with Medallion Architecture
+
+# Step 1: Ingest data to the Bronze layer (Raw Layer)
+# Bronze layer holds raw data directly from various source systems.
+
+# Ingest data from multiple sources (SQL, Blob Storage, etc.) to Azure Data Lake Storage (ADLS) Gen2
+
+# Bronze Layer Ingestion Code
+bronze_ingest_pipeline = """
+{
+  "name": "BronzeLayerIngestionPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyDataFromSQLToBronze",
+        "type": "Copy",
+        "inputs": [ { "name": "SQLSourceDataset" } ],
+        "outputs": [ { "name": "BronzeADLSDataset" } ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM Orders"
+          },
+          "sink": {
+            "type": "AzureDataLakeStoreSink",
+            "fileName": "orders_raw.csv",
+            "folderPath": "adls/bronze/orders/"
+          }
+        }
+      }
+    ]
+  }
+}
+"""
+
+# Step 2: Apply transformations to move data from Bronze to Silver layer
+# The Silver layer contains cleaned, de-duplicated, and transformed data.
+
+# Silver Layer Transformations
+silver_transformations_pipeline = """
+{
+  "name": "SilverLayerTransformationsPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "RemoveDuplicates",
+        "type": "DatabricksNotebook",
+        "inputs": [ { "name": "BronzeADLSDataset" } ],
+        "outputs": [ { "name": "SilverADLSDataset" } ],
+        "typeProperties": {
+          "notebookPath": "/Notebooks/RemoveDuplicates"
+        }
+      },
+      {
+        "name": "FilterNullValues",
+        "type": "DatabricksNotebook",
+        "inputs": [ { "name": "BronzeADLSDataset" } ],
+        "outputs": [ { "name": "SilverADLSDataset" } ],
+        "typeProperties": {
+          "notebookPath": "/Notebooks/FilterNulls"
+        }
+      },
+      {
+        "name": "StandardizeDateFormats",
+        "type": "MappingDataFlow",
+        "inputs": [ { "name": "BronzeADLSDataset" } ],
+        "outputs": [ { "name": "SilverADLSDataset" } ],
+        "typeProperties": {
+          "formatSettings": {
+            "dateFormat": "yyyy-MM-dd"
+          }
+        }
+      }
+    ]
+  }
+}
+"""
+
+# Sample transformations in the Silver Layer
+silver_transformations_code = """
+# 1. Removing duplicates based on unique keys
+df_silver = df_bronze.dropDuplicates(['order_id'])
+
+# 2. Filtering null values
+df_silver = df_silver.filter(df_silver['customer_id'].isNotNull())
+
+# 3. Standardizing date formats
+df_silver = df_silver.withColumn('order_date', to_date(df_silver['order_date'], 'yyyy-MM-dd'))
+
+# 4. Masking sensitive data (PII masking)
+df_silver = df_silver.withColumn('customer_ssn', regexp_replace('customer_ssn', '[0-9]{3}-[0-9]{2}', 'XXX-XX'))
+
+# 5. Calculating new columns (age calculation from date of birth)
+df_silver = df_silver.withColumn('customer_age', datediff(current_date(), df_silver['dob'])/365)
+
+# 6. Aggregating totals for orders
+df_silver = df_silver.groupBy('customer_id').agg(sum('order_total').alias('total_spent'))
+
+# 7. Joining tables (e.g., orders with customers)
+df_silver = df_silver.join(customers_df, 'customer_id', 'inner')
+
+# 8. Reformatting string columns
+df_silver = df_silver.withColumn('customer_name', initcap(df_silver['customer_name']))
+
+# 9. Normalizing numeric columns
+df_silver = df_silver.withColumn('order_total_normalized', (df_silver['order_total'] - min_val)/(max_val - min_val))
+
+# 10. Removing special characters from text fields
+df_silver = df_silver.withColumn('product_description', regexp_replace(df_silver['product_description'], '[^a-zA-Z0-9]', ' '))
+"""
+
+# Step 3: Apply business-level aggregation to move data from Silver to Gold layer
+# The Gold layer contains high-level aggregated data for reporting, analytics, and business use cases.
+
+# Gold Layer Aggregations Pipeline
+gold_aggregations_pipeline = """
+{
+  "name": "GoldLayerAggregationsPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "AggregateCustomerSpending",
+        "type": "DatabricksNotebook",
+        "inputs": [ { "name": "SilverADLSDataset" } ],
+        "outputs": [ { "name": "GoldADLSDataset" } ],
+        "typeProperties": {
+          "notebookPath": "/Notebooks/AggregateCustomerSpending"
+        }
+      },
+      {
+        "name": "SummarizeMonthlySales",
+        "type": "DatabricksNotebook",
+        "inputs": [ { "name": "SilverADLSDataset" } ],
+        "outputs": [ { "name": "GoldADLSDataset" } ],
+        "typeProperties": {
+          "notebookPath": "/Notebooks/SummarizeMonthlySales"
+        }
+      },
+      {
+        "name": "CalculateCustomerLifetimeValue",
+        "type": "MappingDataFlow",
+        "inputs": [ { "name": "SilverADLSDataset" } ],
+        "outputs": [ { "name": "GoldADLSDataset" } ],
+        "typeProperties": {
+          "calculations": [
+            { "name": "lifetime_value", "formula": "sum(order_total * order_frequency)" }
+          ]
+        }
+      }
+    ]
+  }
+}
+"""
+
+# Sample transformations in the Gold Layer
+gold_transformations_code = """
+# 1. Aggregating customer total spending
+df_gold = df_silver.groupBy('customer_id').agg(sum('order_total').alias('total_spent'))
+
+# 2. Monthly sales summary
+df_gold = df_silver.groupBy('year', 'month').agg(sum('order_total').alias('monthly_sales'))
+
+# 3. Calculating customer lifetime value (CLV)
+df_gold = df_gold.withColumn('customer_lifetime_value', col('total_spent') * col('order_frequency'))
+
+# 4. Identifying top N customers by revenue
+df_gold = df_gold.orderBy(desc('total_spent')).limit(100)
+
+# 5. Business KPIs (Key Performance Indicators)
+df_gold = df_silver.groupBy('product_category').agg(sum('order_total').alias('category_sales'))
+
+# 6. Calculating revenue growth month over month
+df_gold = df_gold.withColumn('revenue_growth', (col('monthly_sales') - lag('monthly_sales').over(window)) / lag('monthly_sales').over(window))
+
+# 7. Creating derived columns for reporting
+df_gold = df_gold.withColumn('avg_order_value', col('total_spent') / col('order_count'))
+
+# 8. Generating customer segmentation based on total spending
+df_gold = df_gold.withColumn('customer_segment', when(col('total_spent') > 5000, 'VIP').otherwise('Regular'))
+
+# 9. Calculating product-level sales performance
+df_gold = df_silver.groupBy('product_id').agg(sum('order_total').alias('product_sales'))
+
+# 10. Removing obsolete data from gold layer
+df_gold = df_gold.filter(df_gold['product_sales'] > 0)
+"""
+
+---
+
+### Summary of Transformation Steps in Each Layer:
+
+- **Bronze Layer**: Ingests raw data from SQL databases, blob storage, etc., and stores it in ADLS in the raw format. No transformations occur here.
+- **Silver Layer**: Data cleansing, deduplication, filtering, standardization, and masking occur. Key transformations are filtering nulls, removing duplicates, masking sensitive data, standardizing formats, and deriving new columns.
+- **Gold Layer**: Aggregation and business-level KPIs are calculated. Typical transformations include aggregations, joining datasets, creating derived columns (e.g., CLV), and calculating growth metrics.
+
+### Exhaustive Notes on ADF Pipeline:
+
+- **Bronze Layer**: Holds raw, unprocessed data directly from the source systems. This layer acts as the foundation for all further transformations.
+- **Silver Layer**: Contains transformed, cleaned, and validated data. Typical transformations include deduplication, PII masking, standardization of formats (dates, strings, etc.), and basic data calculations.
+- **Gold Layer**: Data is highly aggregated and ready for business consumption. This layer focuses on aggregating totals, calculating KPIs, and preparing the data for reporting and analytics.
+- **Orchestration in ADF**: Pipelines in ADF orchestrate data movement between the layers. ADF can trigger external compute (Databricks, HDInsight, etc.) for advanced transformations.
+- **Mapping Data Flows**: Used for simple transformations like column renaming, data type conversion, and simple aggregations.
+- **Databricks Notebooks**: Used for more complex transformations, including joins, complex aggregations, and machine learning model integration.
+- **End-to-End Security**: Ensure proper role-based access, encryption at rest, and data masking to meet compliance requirements.
+- **Handling Duplicates**: One of the key steps in the Silver layer is removing duplicates based on unique business keys such as customer IDs or order numbers.
+- **Null Handling**: Silver layer also involves filtering out null values or imputing missing values where necessary.
+- **Business KPIs**: Gold layer prepares data for business consumption and focuses on KPIs, customer segmentation, sales aggregation, etc.
+
+
+
 
