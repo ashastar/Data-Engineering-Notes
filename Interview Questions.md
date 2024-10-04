@@ -386,3 +386,88 @@ The default limit for datasets, pipelines, linked services, triggers, integratio
 
 ## 100. What is Microsoft Azure?
 Microsoft Azure is a cloud computing platform that provides services like infrastructure, platforms, and software as a service (IaaS, PaaS, and SaaS). It enables users to access various cloud services, such as computing, storage, and networking, on demand.
+
+
+# Azure Data Engineer Interview Questions and Answers (Continued)
+
+## 101. What is the primary ETL service in Azure?
+The primary ETL service in Azure is **Azure Data Factory (ADF)**. It allows users to create data-driven workflows for orchestrating and automating data movement and transformation.
+
+## 102. What are data masking features available in Azure?
+**Dynamic Data Masking (DDM)** is available for Azure SQL Database, Azure SQL Managed Instance, and Azure Synapse Analytics. DDM restricts sensitive data visibility by controlling access at the query level, ensuring sensitive data is only accessible to authorized users.
+
+## 103. What is PolyBase?
+**PolyBase** allows querying data from external sources, such as Hadoop, Azure Blob Storage, or Azure Data Lake Store, directly from Azure SQL Database or Azure Synapse Analytics using T-SQL. It simplifies data ingestion and export without the need for third-party ETL tools.
+
+## 104. What is reserved capacity in Azure?
+**Reserved capacity** in Azure helps optimize costs by allowing customers to reserve a fixed amount of capacity in Azure Storage for a set period. It's available for Block Blobs and Azure Data Lake Store Gen2.
+
+## 105. Which service would you use to create a Data Warehouse in Azure?
+**Azure Synapse Analytics** is used for creating a data warehouse in Azure. It integrates big data analytics and enterprise data warehousing to process and analyze large datasets.
+
+## 106. Explain the architecture of Azure Synapse Analytics.
+**Azure Synapse** uses a **Massively Parallel Processing (MPP)** architecture. The control node receives SQL queries and distributes them across multiple compute nodes, enabling parallel data processing for fast query performance even with large datasets.
+
+## 107. What is the difference between ADLS and Azure Synapse Analytics?
+- **Azure Data Lake Storage (ADLS)** is optimized for storing structured and unstructured data.
+- **Azure Synapse Analytics** is optimized for processing structured data in a well-defined schema and is built on SQL Server for business analytics.
+
+## 108. What are Dedicated SQL Pools in Azure Synapse Analytics?
+**Dedicated SQL Pools** provide data warehousing capabilities using Azure Synapse Analytics, leveraging columnar storage to improve query performance and reduce storage requirements.
+
+## 109. How do you capture streaming data in Azure?
+Streaming data in Azure can be captured using **Azure Stream Analytics**, which processes large volumes of data in real-time with low latency.
+
+## 110. What are the windowing functions in Azure Stream Analytics?
+Windowing functions in Azure Stream Analytics include:
+- **Tumbling Window**: Fixed, non-overlapping segments.
+- **Hopping Window**: Overlapping segments.
+- **Sliding Window**: Aggregation occurs when events arrive.
+- **Session Window**: Tracks data until there is inactivity.
+
+## 111. What are the different types of storage in Azure?
+- **Azure Blobs**: Stores large binary objects.
+- **Azure Queues**: Manages messaging between components.
+- **Azure Files**: SMB-compliant file sharing.
+- **Azure Disks**: Provides persistent storage for VMs.
+- **Azure Tables**: Stores structured NoSQL data.
+
+## 112. What is Azure Storage Explorer, and what are its uses?
+**Azure Storage Explorer** is a standalone application that allows users to manage Azure Storage services like Blobs, Tables, and Queues across platforms, even offline with emulators.
+
+## 113. What is Azure Databricks, and how is it different from regular Databricks?
+**Azure Databricks** is a version of Databricks optimized for Azure. It integrates closely with Azure services, such as Azure Data Lake and Azure Synapse, and is used for big data processing, machine learning, and data preparation.
+
+## 114. What is Azure Table Storage?
+**Azure Table Storage** is a NoSQL data storage service designed for storing structured data as key-value pairs. Entities in Table Storage are identified using **PartitionKey** and **RowKey**.
+
+## 115. What is serverless database computing in Azure?
+**Serverless computing** allows users to run code without provisioning infrastructure. It automatically scales and charges only for the compute resources used during execution, making it cost-effective.
+
+## 116. What data security options are available in Azure SQL DB?
+- **Firewall Rules**: Manage access at server and database levels.
+- **Always Encrypted**: Protects sensitive data on the client side.
+- **Transparent Data Encryption (TDE)**: Encrypts data at rest.
+- **SQL Database Auditing**: Logs database activities for review.
+
+## 117. What is data redundancy in Azure?
+Azure provides several data redundancy solutions to ensure high availability:
+- **LRS**: Locally redundant storage.
+- **ZRS**: Zone redundant storage.
+- **GRS**: Geo-redundant storage.
+- **RA-GRS**: Read-access geo-redundant storage.
+
+## 118. What are ways to ingest data from on-premises storage to Azure?
+Data ingestion options include:
+- **Offline Transfer**: Using Data Box or Import/Export services.
+- **Network Transfer**: Tools like AzCopy, Azure PowerShell, and Storage Explorer.
+- **Data Box Edge**: A physical device to optimize data transfer.
+
+## 119. What is the best way to migrate data from an on-premise database to Azure?
+Data migration methods include:
+- **SQL Server Stretch Database**: Moves infrequently accessed data to Azure.
+- **Azure SQL Database**: For a cloud-only strategy.
+- **SQL Server on Azure VM**: Provides full control over database management.
+
+## 120. What are multi-model databases in Azure?
+**Azure Cosmos DB** is a multi-model NoSQL database supporting various data models like key-value, document, column-family, and graph databases, ensuring low latency and global distribution.
