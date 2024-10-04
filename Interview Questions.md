@@ -904,3 +904,95 @@ A **data pipeline** transports, transforms, and prepares data for analysis or st
 
 ## 225. How can you monitor pipeline runs in ADF?
 - Use the **Monitor** tab in the ADF portal to view pipeline run history, activity status, trigger status, and diagnostic logs for errors and performance metrics.
+
+
+
+
+## 226. How can you make Azure Functions work with Azure Data Factory?
+- Azure Data Factory can trigger **Azure Functions** using the **Web Activity**, which can call an HTTP endpoint. Azure Functions can be used to transform data, manage file metadata, or handle other custom logic as part of a data pipeline.
+
+## 227. What are tumbling windows in Azure Data Factory?
+- **Tumbling Window Triggers** are time-based triggers that execute pipelines in Azure Data Factory at regular intervals. They can handle data in fixed-size, non-overlapping time windows, ensuring data from different time windows is processed independently.
+
+## 228. Can Azure Data Factory pipelines handle real-time data?
+- While Azure Data Factory is primarily for batch processing, it can handle near real-time data by integrating with services like **Event Grid** and **Stream Analytics** for event-driven workflows.
+
+## 229. What are the supported transformation activities in Azure Data Factory?
+1. **Mapping Data Flows**: Visual data transformation logic without code.
+2. **SQL Query**: Transformation using SQL queries in databases.
+3. **Stored Procedure**: Execute stored procedures in databases.
+4. **Azure Databricks**: Use Spark to transform big data.
+5. **Azure Functions**: Custom transformations using serverless functions.
+
+## 230. How is data secured during transformation in Azure Data Factory?
+- Data is secured by using **Encryption** at rest and in transit with TLS/SSL protocols. Additionally, **Managed Identity** and **Azure Active Directory (AAD)** can be used for authentication, and **Role-Based Access Control (RBAC)** ensures proper access to sensitive data.
+
+## 231. What is the difference between scheduled and event-based triggers in ADF?
+- **Scheduled Triggers** run pipelines at specific times or intervals, whereas **Event-Based Triggers** start pipelines in response to events like file creation or modification in Blob Storage or Data Lake.
+
+## 232. What are the common real-world use cases of Azure Data Factory?
+1. **Data Migration**: Moving data between cloud and on-premise environments.
+2. **Data Warehousing**: Integrating data into a centralized data warehouse.
+3. **Big Data Analytics**: Orchestrating big data processing workflows.
+4. **ETL/ELT Automation**: Automating data extraction, transformation, and loading processes.
+5. **Data Integration**: Connecting disparate data sources for unified analytics.
+
+## 233. What are the advantages of integrating Azure Data Factory with Azure Synapse Analytics?
+- **Unified Data Integration**: Combines ETL pipelines with Synapse’s big data and data warehousing capabilities.
+- **Seamless Querying**: Use SQL and Spark to query data without moving it.
+- **Scalability**: Orchestrate complex data transformations on large-scale data.
+- **Integration with Machine Learning**: Easily incorporate machine learning models into data workflows.
+
+## 234. What is the difference between Azure Data Factory and Azure Databricks?
+- **Azure Data Factory** is an orchestration tool used for ETL and data integration. **Azure Databricks** is an analytics platform optimized for Apache Spark that handles big data processing, machine learning, and collaborative analytics.
+
+## 235. How does Azure Data Factory handle concurrency?
+- Azure Data Factory manages concurrency through **pipeline concurrency settings**, allowing multiple instances of the same pipeline to run in parallel, and through **activity-level parallelism** in activities like **ForEach** loops.
+
+## 236. What are the benefits of using self-hosted Integration Runtime in Azure Data Factory?
+- **Self-hosted Integration Runtime (IR)** allows on-premises or virtual machines in private networks to securely integrate with Azure services, enabling hybrid data movement between on-premises data stores and cloud environments.
+
+## 237. How can you handle dynamic data ingestion using Azure Data Factory?
+- You can create **parameterized datasets** and **pipelines** to dynamically adjust data ingestion workflows based on the source data structure, file names, or timestamps, allowing flexible and scalable ingestion processes.
+
+## 238. What is the ForEach activity in Azure Data Factory?
+- The **ForEach** activity iterates over a collection of items, such as files or database rows, and performs activities for each item in parallel or sequentially. This is commonly used for looping through multiple datasets or files.
+
+## 239. What are ARM templates in Azure Data Factory?
+- **Azure Resource Manager (ARM) Templates** are JSON files used to define and deploy Azure resources, including Data Factory pipelines, datasets, and linked services. They enable the automation of Data Factory deployments across environments.
+
+## 240. What are the benefits of using Mapping Data Flows in Azure Data Factory?
+- **Mapping Data Flows** provide a low-code, visual interface for defining ETL transformations in Data Factory, allowing users to perform complex operations like joins, aggregations, and filtering without writing code. These transformations are scalable as they run on Apache Spark clusters.
+
+## 241. How can you automate the deployment of Azure Data Factory pipelines?
+- You can automate pipeline deployment using **CI/CD** pipelines in **Azure DevOps** or **GitHub**. By using **ARM templates** to define the pipelines, datasets, and linked services, the deployment process can be fully automated for different environments.
+
+## 242. What are triggers in Azure Data Factory, and how are they used?
+- **Triggers** in ADF define when pipelines should be executed. There are three types:
+  1. **Schedule Trigger**: Executes pipelines at a specified time.
+  2. **Tumbling Window Trigger**: Executes pipelines at recurring intervals.
+  3. **Event-Based Trigger**: Starts pipelines in response to events like file uploads.
+
+## 243. How do you monitor and troubleshoot failures in Azure Data Factory?
+- **Monitor failures** using the **Monitor** tab, where you can view pipeline runs, activity status, and error details. For detailed troubleshooting, review **diagnostic logs** and set up **alerts** for failed pipeline runs.
+
+## 244. How do you integrate Azure Data Factory with Git for version control?
+- You can integrate ADF with **Git** (either Azure Repos or GitHub) by connecting it to a repository through the **Git Configuration** in ADF. This enables version control, collaboration, and automated deployment pipelines using **CI/CD** practices.
+
+## 245. What is PolyBase in Azure, and how is it used in Azure Data Factory?
+- **PolyBase** allows ADF pipelines to query and import external data directly from services like Hadoop or Blob Storage using **T-SQL** in Azure SQL Data Warehouse or Synapse Analytics, eliminating the need to first move the data.
+
+## 246. Can ADF handle schema drift in data pipelines?
+- Yes, **Mapping Data Flows** can handle **schema drift**, which occurs when the structure of incoming data changes dynamically. Schema drift allows pipelines to adapt to changing columns or data types without breaking the ETL process.
+
+## 247. How does Azure Data Factory handle retries for failed activities?
+- Azure Data Factory supports **retry policies** for activities, allowing you to automatically retry failed activities a specified number of times with a delay between retries. This is particularly useful for handling transient failures.
+
+## 248. What is the Web Activity in Azure Data Factory?
+- The **Web Activity** allows you to call REST APIs from within an ADF pipeline. It is commonly used to trigger external services, send notifications, or interact with other cloud services that expose a REST API.
+
+## 249. How do you manage pipeline dependencies in Azure Data Factory?
+- Pipeline dependencies can be managed by using **Wait Activities**, **Execute Pipeline Activities**, or by creating **triggers** that depend on the completion of other pipelines. This ensures that pipelines execute in the correct sequence.
+
+## 250. What is Azure Key Vault, and how can it be used in Azure Data Factory?
+- **Azure Key Vault** is a secure store for managing secrets like API keys, passwords, and connection strings. In ADF, you can reference Key Vault secrets in linked services or activities to securely manage credentials without hardcoding sensitive information.
