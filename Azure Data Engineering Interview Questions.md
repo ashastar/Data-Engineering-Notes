@@ -751,3 +751,115 @@
 200. How do you handle large datasets in PySpark?
 
 
+# 100 Scenario-Based Azure Data Engineering Interview Questions
+
+### 1-20: Azure Data Factory (ADF) Scenarios
+1. How would you design an ADF pipeline to handle daily incremental data loads from an on-premises SQL Server database to Azure SQL Database?
+2. You need to extract, transform, and load (ETL) data from multiple sources (Blob Storage, SQL, REST API) into a Data Warehouse. How would you implement this in ADF?
+3. How would you implement error handling and retry logic in an ADF pipeline that interacts with an API?
+4. You need to perform a data cleanup before ingestion using ADF. How would you approach this scenario?
+5. How would you schedule an ADF pipeline to run based on a file trigger when a file is uploaded to Azure Blob Storage?
+6. How do you implement a lookup activity in ADF to check for dependencies in a pipeline?
+7. How would you copy data from an on-premises Oracle database to Azure Data Lake using ADF and Self-hosted Integration Runtime?
+8. Explain how you would use ADF’s mapping data flow to perform data transformation on incoming CSV files.
+9. How would you configure an ADF pipeline to handle file-based data, considering files are uploaded in different formats (CSV, JSON, Parquet)?
+10. What is your approach for managing and monitoring failed ADF pipeline executions in a production environment?
+11. You need to copy only updated records from an Azure SQL Database to another database daily. How would you implement this in ADF?
+12. How would you manage different environments (Dev, QA, Prod) using ADF?
+13. How do you implement logging and monitoring for pipelines in ADF?
+14. You have to move data from SFTP to Azure Blob Storage in real-time. How would you implement this using ADF?
+15. How would you set up a complex pipeline that triggers multiple dependent pipelines in ADF?
+16. How do you optimize ADF data flows for performance when transforming large datasets?
+17. Explain how to use Azure Key Vault in ADF to manage secrets and connection strings securely.
+18. You need to copy millions of records from SQL Server to Azure Data Lake. How would you ensure high performance and scalability in ADF?
+19. Describe how you would handle schema drift when copying data from multiple sources into Azure Data Lake.
+20. How would you implement version control for ADF pipelines in a CI/CD process?
+
+### 21-40: Azure Data Lake Storage (ADLS) and Blob Storage Scenarios
+21. How would you set up a folder structure in ADLS Gen2 for a data lake architecture following the Medallion (Bronze, Silver, Gold) approach?
+22. How do you secure sensitive data in ADLS Gen2 using RBAC and ACL?
+23. You have data stored in ADLS Gen2 that you need to query. How would you make this data accessible for querying without moving it to Azure SQL Data Warehouse?
+24. How would you design a data retention policy for ADLS Gen2 to manage historical data efficiently?
+25. How do you handle large file ingestion (e.g., 10 GB files) into ADLS Gen2 while optimizing read performance?
+26. You need to move data from ADLS Gen2 to Azure Synapse Analytics. How would you do this while maintaining data integrity?
+27. How would you migrate petabytes of data from on-premises to ADLS Gen2?
+28. How would you implement partitioning in ADLS Gen2 to optimize query performance for large datasets?
+29. Explain how to manage and store metadata for files ingested into ADLS Gen2.
+30. You have millions of small files in ADLS Gen2. How would you handle this scenario to optimize performance and reduce costs?
+31. How would you implement encryption at rest and in transit for data stored in Blob Storage or ADLS Gen2?
+32. You need to integrate data stored in ADLS Gen2 with Power BI. How would you approach this?
+33. Describe how you would use Data Lifecycle Management policies in ADLS Gen2 to optimize costs.
+34. How would you set up a backup and disaster recovery solution for ADLS Gen2?
+35. How would you implement data compression and decompression while writing large files to Blob Storage or ADLS Gen2?
+36. How do you handle the ingestion of semi-structured data (e.g., JSON) into ADLS Gen2 and make it queryable?
+37. How would you monitor the performance and health of your ADLS Gen2 environment?
+38. You are dealing with IoT sensor data being stored in ADLS Gen2. How would you partition and organize this data for efficient analysis?
+39. How do you configure role-based access and manage permissions in ADLS Gen2 for a multi-team setup?
+40. Explain how you would ensure the data consistency and reliability in ADLS Gen2 when ingesting from multiple sources.
+
+### 41-60: Azure Synapse Analytics Scenarios
+41. How would you design an ETL pipeline in Azure Synapse Analytics that extracts data from multiple source systems, transforms it, and loads it into a data warehouse?
+42. Explain how you would handle slowly changing dimensions (SCD) in Azure Synapse Analytics.
+43. How do you implement partitioning in Synapse Analytics to optimize performance?
+44. How would you design a data model in Azure Synapse Analytics for a retail company's sales data?
+45. You need to integrate Synapse Analytics with Azure Machine Learning. How would you approach this?
+46. Describe how you would manage the distribution of large tables across compute nodes in Synapse Analytics.
+47. How would you perform a point-in-time restore of a database in Synapse Analytics?
+48. How would you handle concurrent users querying the same large datasets in Synapse Analytics?
+49. You need to perform a data migration from an on-premises SQL Data Warehouse to Azure Synapse Analytics. How would you plan this migration?
+50. How do you implement row-level security (RLS) in Synapse Analytics?
+51. How would you optimize a slow-running query in Synapse Analytics?
+52. How would you design a data integration pipeline in Synapse Analytics for real-time data ingestion?
+53. How do you manage different environments (Dev, Test, Prod) for Synapse Analytics?
+54. How do you manage and monitor resource consumption in Azure Synapse Analytics?
+55. How would you partition and manage data when dealing with large time-series datasets in Synapse Analytics?
+56. How would you manage schema drift in Azure Synapse Analytics when ingesting data from diverse sources?
+57. How do you integrate Synapse Analytics with ADLS Gen2?
+58. How would you automate data loading and transformation using Azure Synapse Analytics pipelines?
+59. How would you design a high-availability and disaster recovery strategy for Azure Synapse Analytics?
+60. Explain how PolyBase can be used to query external data in Azure Synapse Analytics.
+
+### 61-80: Azure Databricks Scenarios
+61. How do you optimize Spark jobs running in Azure Databricks for performance when dealing with large datasets?
+62. You are tasked with building a machine learning pipeline in Databricks using PySpark. How would you design it?
+63. How do you implement incremental data processing in Azure Databricks?
+64. Explain how you would integrate Azure Databricks with ADLS Gen2 for reading and writing data.
+65. How would you handle skewed data in a PySpark job running on Databricks?
+66. How do you manage and scale compute resources in Azure Databricks for different workloads?
+67. You need to process real-time data in Databricks. How would you implement this?
+68. How do you secure a Databricks cluster for sensitive data processing?
+69. Explain how you would implement job scheduling in Azure Databricks.
+70. How would you implement CDC (Change Data Capture) in Databricks using PySpark?
+71. You need to process large amounts of streaming data in Databricks. How would you approach this?
+72. How do you implement logging and monitoring in Databricks?
+73. You have a dataset stored in ADLS Gen2, and you need to perform a complex transformation using PySpark in Databricks. How would you approach this?
+74. Explain how Delta Lake can be used in Databricks to ensure ACID transactions.
+75. How would you migrate existing Apache Spark jobs from an on-prem Hadoop environment to Azure Databricks?
+76. You are tasked with handling sessionization of web logs in Databricks. How would you approach this problem?
+77. Explain how you would perform a join between large datasets in Azure Databricks while avoiding shuffles.
+78. How would you set up continuous integration and continuous deployment (CI/CD) for Databricks notebooks and jobs?
+79. How do you handle schema evolution in Delta Lake tables in Databricks?
+80. How would you monitor and troubleshoot Spark jobs in Azure Databricks?
+
+### 81-100: Azure Data Engineering General Scenarios
+81. You need to design a highly available data pipeline that processes both batch and streaming data. How would you implement this using Azure services?
+82. How would you ensure data integrity and consistency when moving data across different Azure services?
+83. You need to design a data pipeline that ingests IoT data and stores it for real-time analytics. How would you approach this using Azure?
+84. How would you implement an end-to-end data governance solution using Azure Purview for a large organization?
+85. Explain how you would handle schema validation during data ingestion from different source systems.
+86. You need to design a data pipeline that processes unstructured data (e.g., logs) and provides insights. How would you do this in Azure?
+87. How would you manage and monitor costs for a large-scale data engineering project on Azure?
+88. You need to ensure compliance with data regulations such as GDPR. How would you implement data privacy and security measures in an Azure-based data pipeline?
+89. How would you design a data lake architecture that supports both structured and unstructured data?
+90. How would you implement fault tolerance and retry mechanisms in a cloud-based data pipeline using Azure services?
+91. How do you design a scalable and high-performance data warehouse using Azure Synapse Analytics?
+92. You need to process and analyze streaming data from multiple sources (e.g., Kafka, Event Hubs). How would you approach this using Azure Stream Analytics or Databricks?
+93. How do you implement a disaster recovery strategy for a data pipeline running in Azure?
+94. You need to perform real-time fraud detection using Azure services. What architecture would you propose?
+95. How would you optimize the cost of running a large-scale data processing solution on Azure?
+96. You need to ingest data from a variety of relational and NoSQL databases into Azure. How would you manage schema drift and evolving data structures?
+97. How would you design a metadata-driven pipeline to automate ETL processes in Azure?
+98. How would you implement encryption and secure data storage for sensitive customer data in Azure?
+99. You need to integrate data from multiple systems and provide a unified view of customer data. How would you approach this using Azure Data Engineering tools?
+100. How do you manage data quality and data lineage in Azure-based data solutions?
+
