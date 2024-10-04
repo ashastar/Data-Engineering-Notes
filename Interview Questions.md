@@ -996,3 +996,91 @@ A **data pipeline** transports, transforms, and prepares data for analysis or st
 
 ## 250. What is Azure Key Vault, and how can it be used in Azure Data Factory?
 - **Azure Key Vault** is a secure store for managing secrets like API keys, passwords, and connection strings. In ADF, you can reference Key Vault secrets in linked services or activities to securely manage credentials without hardcoding sensitive information.
+
+
+## 281. How do you monitor pipeline performance in Azure Data Factory?
+- You can monitor pipeline performance using the **Monitor** tab in Azure Data Factory, which shows detailed information on pipeline runs, activity runs, success/failure logs, and execution times. Additionally, you can use **Azure Monitor** to set alerts and view metrics.
+
+## 282. What is the purpose of Azure Integration Runtime in ADF?
+- The **Integration Runtime (IR)** is the compute infrastructure that Azure Data Factory uses to run data movement and transformation activities. There are three types: **Azure IR** (for cloud-based integration), **Self-hosted IR** (for on-premises or hybrid integration), and **Azure-SSIS IR** (for running SSIS packages in Azure).
+
+## 283. How do you handle version control in Azure Data Factory?
+- You can handle version control by integrating Azure Data Factory with **Git repositories** (e.g., Azure DevOps, GitHub). This allows you to manage pipeline code, track changes, and use features like pull requests for collaborative development.
+
+## 284. How does Azure Data Factory handle duplicate data?
+- Azure Data Factory can handle duplicates by using **Data Flows** with transformations such as **aggregate**, **windowing**, or **distinct** to remove duplicate records. You can also use **Lookup Activity** to check for existing records before inserting new data.
+
+## 285. What are the supported file formats in Azure Data Factory?
+- Azure Data Factory supports a wide range of file formats, including:
+  - **Delimited text (CSV)**
+  - **JSON**
+  - **Parquet**
+  - **Avro**
+  - **ORC**
+  - **Excel**
+  - **XML**
+  - **Binary** files for unstructured data.
+
+## 286. How can you parameterize a pipeline in Azure Data Factory?
+- You can parameterize a pipeline by defining **parameters** at the pipeline level and passing values at runtime. These parameters can be used in activities, linked services, datasets, or as part of expressions for dynamic behavior.
+
+## 287. What is the role of a Self-hosted Integration Runtime in ADF?
+- A **Self-hosted Integration Runtime (IR)** enables Azure Data Factory to connect to on-premises data sources securely or handle hybrid data integration scenarios. It provides the compute power for data movement and transformation between on-premises and cloud environments.
+
+## 288. What is the use of the Execute Pipeline Activity in Azure Data Factory?
+- The **Execute Pipeline Activity** is used to trigger the execution of one pipeline from another pipeline. This is useful for creating modular workflows or orchestrating multiple dependent pipelines.
+
+## 289. How do you handle pipeline failures in Azure Data Factory?
+- Pipeline failures can be handled by:
+  - Using **Retry policies** on activities to automatically retry in case of failures.
+  - Implementing **error handling** with **If Condition**, **Switch**, or **Until** activities to manage failures and continue execution.
+  - Using **alerts** in **Azure Monitor** to notify stakeholders when a pipeline fails.
+
+## 290. How does ADF handle schema evolution (changing schemas)?
+- Azure Data Factory handles schema evolution using **Mapping Data Flows**, which automatically detect schema changes and allow flexible mapping. For relational sources, you can also configure **schema drift** to allow dynamic handling of columns that may appear or disappear over time.
+
+## 291. How do you enforce data quality in Azure Data Factory?
+- Data quality can be enforced using:
+  - **Mapping Data Flows** to implement validation rules and transformations.
+  - **Data profiling** tools within ADF to check data distributions and patterns.
+  - **Custom scripts** in Azure Functions or Databricks to validate data before further processing.
+
+## 292. What is a linked service in Azure Data Factory?
+- A **Linked Service** in ADF defines the connection information for data sources and compute environments. It serves as a bridge to connect ADF with external resources, such as Azure SQL Database, Blob Storage, or on-premises databases.
+
+## 293. How do you implement dynamic pipelines in Azure Data Factory?
+- Dynamic pipelines can be implemented using **parameters** and **expressions**. Parameters allow you to create reusable pipelines by accepting different input values at runtime. **Expressions** allow you to build dynamic paths, filenames, and conditions based on the parameters or system variables.
+
+## 294. What are tumbling windows in Azure Data Factory?
+- **Tumbling Window Triggers** are time-based triggers that operate on a fixed-size, non-overlapping time interval. They are used to process data in periodic batches, ensuring that each window processes exactly once and waits for the previous window to finish.
+
+## 295. How can you optimize the performance of data movement activities in Azure Data Factory?
+- To optimize data movement activities, you can:
+  - Use **parallelism** by splitting data into partitions.
+  - Configure **staging** for large data transfers.
+  - Select the appropriate **Integration Runtime** based on data size and location.
+  - Adjust **batch size** and **timeout settings** to suit the data source and destination.
+
+## 296. What is the role of Control Flow activities in ADF?
+- **Control Flow Activities** in Azure Data Factory help manage the sequence and logic of activities within a pipeline. Examples include:
+  - **ForEach Activity**: Iterate over a collection.
+  - **If Condition**: Execute different paths based on conditions.
+  - **Wait Activity**: Pause pipeline execution.
+  - **Execute Pipeline**: Call another pipeline.
+
+## 297. How do you ingest real-time data into Azure Data Factory?
+- Real-time data can be ingested into Azure Data Factory using **Event-Based Triggers** or integrating with streaming services like **Azure Event Hubs**, **Azure IoT Hub**, or **Azure Stream Analytics** to process and route real-time data streams into ADF.
+
+## 298. How can you handle different file formats dynamically in Azure Data Factory?
+- You can handle different file formats dynamically by parameterizing the **dataset** and passing the file format as a parameter. You can also use **Metadata Activity** to detect the file type before processing.
+
+## 299. How does Azure Data Factory support CI/CD (Continuous Integration/Continuous Delivery)?
+- ADF supports **CI/CD** through integration with Git (e.g., Azure Repos, GitHub). You can develop and test pipelines in a development environment, and then use **ARM templates** or **Azure DevOps pipelines** to deploy to production environments.
+
+## 300. What are the best practices for handling large data volumes in Azure Data Factory?
+- Best practices for handling large data volumes include:
+  - Using **partitioning** for parallel processing.
+  - Leveraging **incremental loading** to avoid full data loads.
+  - Using **staging areas** like **Blob Storage** or **Data Lake** for temporary storage.
+  - Optimizing **Integration Runtime** settings for performance.
+  - Monitoring and scaling resources using **Azure Monitor**.
