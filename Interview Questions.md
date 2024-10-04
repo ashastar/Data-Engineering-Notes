@@ -615,3 +615,136 @@ A **data pipeline** transports, transforms, and prepares data for analysis or st
 - Create linked services for both Blob Storage and SQL Database.
 - Use **Data Flow** to apply transformations.
 - Write transformed data to SQL Database.
+
+
+
+## 151. Scenario: You need to handle intermittent network issues in a pipeline.
+- Configure retry policies.
+- Use **Set Variable** activity for error logging and handling retries.
+
+## 152. Scenario: Copy data from multiple CSV files in Azure Data Lake Storage Gen2 to Azure SQL Database.
+- Use wildcards in datasets to reference multiple CSV files.
+- Use **Copy Data** activity for data movement and transformation.
+
+## 153. Scenario: Pipeline must run only after another pipeline succeeds.
+- Use the **Execute Pipeline** activity to call a dependent pipeline upon successful execution of another.
+
+## 154. Why did you choose a career in cloud computing?
+- Cloud computing offers scalability, flexibility, and innovation. As data engineering is increasingly moving towards cloud-based solutions, a career in cloud computing aligns with my passion for modern technologies and solving complex data problems.
+
+## 155. Why did you choose Microsoft Azure and not AWS?
+- Azure offers seamless integration with Microsoft services such as Windows Server, SQL Server, and Active Directory, which makes it the preferred choice for enterprises already using these technologies. Additionally, Azure’s global network and data security features align with the needs of many organizations.
+
+## 156. How does Microsoft Azure compare to AWS?
+- **Azure** is preferred for organizations heavily invested in the Microsoft ecosystem due to its seamless integration with Windows Server, SQL Server, and other Microsoft products. 
+- **AWS** is often preferred by startups and companies looking for a wider range of services or customizability.
+
+## 157. How did you learn Azure?
+- Discuss your learning journey: through certifications, hands-on experience at your job, personal projects, or training courses like Udemy or Microsoft Learn.
+
+## 158. Tell me about a problem you solved at your prior job.
+- Example: Discuss a specific challenge in data integration or cloud architecture that you resolved by designing an efficient data pipeline, optimizing performance, or improving scalability.
+
+## 159. What is the difference between SaaS, PaaS, and IaaS?
+- **IaaS**: Provides infrastructure components like VMs, networking, and storage (e.g., Azure VMs).
+- **PaaS**: Platform for developers to build applications without managing the infrastructure (e.g., Azure App Services, SQL Database).
+- **SaaS**: Software delivered over the internet on a subscription basis (e.g., Microsoft 365).
+
+## 160. What are the instance types offered by Azure?
+- **General Purpose**: Balanced CPU-to-memory ratio (e.g., Standard_D64_v3).
+- **Compute Optimized**: High CPU-to-memory ratio (e.g., Standard_F72s_V2).
+- **Memory Optimized**: High memory-to-CPU ratio (e.g., Standard_M128m).
+- **Storage Optimized**: High disk I/O and throughput (e.g., Standard_L32s).
+- **GPU**: High-performance graphics processing (e.g., Standard_ND24rs).
+- **High Performance Compute**: High-performance CPU (e.g., Standard_HB60rs).
+
+## 161. What are the deployment environments offered by Azure?
+- **Staging Environment**: Used to validate changes before going live using a GUID URL (e.g., GUID.cloudapp.net).
+- **Production Environment**: The live application with a user-friendly DNS URL (e.g., servicename.cloudapp.net).
+
+## 162. What is Azure Resource Manager (ARM)?
+- **ARM** is the management layer that allows you to deploy, manage, and monitor resources in Azure as a group, using declarative JSON templates for infrastructure as code (IaC).
+
+## 163. What is the difference between repetitive and minimal monitoring?
+- **Repetitive Monitoring**: Collects detailed performance metrics for extensive analysis.
+- **Minimal Monitoring**: Collects basic metrics and logs by default for lightweight analysis.
+
+## 164. Which is better, Azure ML Studio or GCP Cloud AutoML?
+- Azure ML Studio is generally considered better for its rich set of features like classification, regression, clustering, anomaly detection, and integration with Azure services.
+
+## 165. What are the advantages of scaling in Azure?
+- **Maximizes Performance**: Adjusts resources to handle workloads.
+- **Automatic Scaling**: Based on demand, reduces the need for manual intervention.
+- **Scheduled Scaling**: Enables predefined scaling actions.
+- **Cost-effective**: Only pays for the resources when needed.
+
+## 166. How is Windows Active Directory different from Azure Active Directory?
+- **Windows Active Directory**: On-premises service managing file and printer access, Group Policy, and user authentication.
+- **Azure Active Directory**: Cloud-based identity and access management focused on web services, offering features like Single Sign-On (SSO) and multi-factor authentication (MFA).
+
+## 167. What are the types of queues offered by Azure?
+- **Storage Queues**: Used for messaging within/between services.
+- **Service Bus Queues**: Used for more advanced messaging and enterprise-level communication, offering FIFO message delivery.
+
+## 168. What are the advantages of Azure Resource Manager?
+- **Centralized Resource Management**: Manage resources as a group.
+- **Access Control**: Assign role-based permissions for teams.
+- **Comprehensive Billing**: Provides detailed cost reports per resource.
+- **Simplified Provisioning**: Deploy resources declaratively using templates.
+
+## 169. What are web applications that can be deployed with Azure?
+- Applications such as **ASP.NET**, **PHP**, **Java**, **Python**, and **Node.js** can be deployed on Azure App Services.
+
+## 170. How has integrating hybrid cloud been useful for Azure?
+- Hybrid cloud integration enhances **efficiency** by providing access to both on-premises resources and Azure cloud services. It also enables seamless updates across environments, improving **application deployment speed**.
+
+## 171. What is federation in Azure SQL?
+- Federation in Azure SQL allows for **scaling out databases** across multiple servers and managing distributed workloads, reducing bottlenecks and ensuring better performance.
+
+## 172. What are the different types of storage offered by Azure?
+- **Azure Blob Storage**: Unstructured data storage for multimedia, backups.
+- **Azure Table Storage**: NoSQL key-value store for structured data.
+- **Azure File Storage**: File-sharing with SMB protocol.
+- **Azure Queue Storage**: Message queuing for large workloads.
+
+## 173. What is the Text Analytics API in Azure Machine Learning?
+- Text Analytics API analyzes unstructured text to perform sentiment analysis, keyphrase extraction, and named entity recognition, providing results in a score between 0 and 1.
+
+## 174. What are the advantages of Azure Queue Storage?
+- **Rich Client Libraries**: Easy integration with development tools.
+- **Flexible App Building**: Supports various application architectures.
+- **Scalable Applications**: Can handle millions of messages.
+- **Queue Monitoring**: Offers detailed logging and monitoring capabilities.
+
+## 175. What are the two types of Azure web service roles?
+- **Web Roles**: Runs web applications using IIS, typically for ASP.NET.
+- **Worker Roles**: Runs background tasks independent of IIS.
+
+## 176. What is Azure Service Fabric?
+- **Service Fabric** is a platform for building scalable microservices and managing the lifecycle of these services in a distributed environment, capable of scaling up to thousands of machines.
+
+## 177. How can Azure handle a client’s application hosted in Azure but with the database on-premises?
+- Use **Azure VNET-based "Point-to-Site" VPN** to securely connect on-premises databases to the Azure application.
+
+## 178. What is Azure Traffic Manager?
+- **Traffic Manager** is a DNS-based traffic load balancer that improves high availability by routing traffic across multiple regions based on load, performance, or geographic location.
+
+## 179. How can Azure isolate network traffic among VMs with minimal downtime?
+- Use **Azure Virtual Network (VNet)** to create isolated, private networks for VMs, preventing traffic from crossing outside the subnet.
+
+## 180. What is the difference between Public, Private, and Hybrid Cloud?
+- **Public Cloud**: All resources run in Azure's shared infrastructure.
+- **Private Cloud**: Cloud infrastructure is dedicated to a single organization, hosted either on-premises or by a cloud provider.
+- **Hybrid Cloud**: Combines both public and private cloud environments to create a flexible solution.
+
+## 181. Which Azure storage is best for handling unstructured data?
+- **Azure Blob Storage** is best suited for storing unstructured data, offering scalability and flexibility for media files, backups, and large datasets.
+
+## 182. How do you set up an Azure Virtual Machine?
+- Set up a VM through the Azure portal by selecting an image, configuring VM size, networking, storage, and other options.
+
+## 183. How do you ensure secure communication between virtual machines?
+- Use **Azure Virtual Network (VNet)** and **Network Security Groups (NSGs)** to isolate VMs and ensure secure communication.
+
+## 184. How do you implement Single Sign-On (SSO) in Azure?
+- Configure **Azure Active Directory Sync** to implement Single Sign-On, allowing users to log in once and access multiple applications and systems.
