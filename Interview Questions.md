@@ -471,3 +471,147 @@ Data migration methods include:
 
 ## 120. What are multi-model databases in Azure?
 **Azure Cosmos DB** is a multi-model NoSQL database supporting various data models like key-value, document, column-family, and graph databases, ensuring low latency and global distribution.
+
+
+
+# Azure Data Engineer Interview Questions and Answers (Continued)
+
+## 121. What is the Azure Cosmos DB synthetic partition key?
+A synthetic partition key helps distribute data evenly across multiple partitions when no suitable partition key exists by concatenating properties or using random suffixes.
+
+## 122. What are consistency models in Cosmos DB?
+Consistency models in Cosmos DB include:
+- **Strong**: Always returns the latest data.
+- **Bounded Staleness**: Limits time or version lag.
+- **Session**: Ensures consistency within a user session.
+- **Consistent Prefix**: Guarantees in-order reads.
+- **Eventual**: Prioritizes availability over consistency.
+
+## 123. How is data security implemented in ADLS Gen2?
+Data security in ADLS Gen2 includes:
+- **Authentication**: Via Azure Active Directory (AAD) or Shared Access Signature (SAS) tokens.
+- **Access Control**: Using Role-Based Access Control (RBAC) and Access Control Lists (ACLs).
+- **Network Isolation**: Limits access based on VPNs or IP addresses.
+- **Data Protection**: Encryption in transit using HTTPS.
+- **Auditing**: Logs all account activity for security.
+
+## 124. What are pipelines and activities in Azure Data Factory?
+Pipelines are a grouping of activities in ADF that work together to perform a task. Activities include:
+- **Data Movement**: Ingest/export data.
+- **Data Transformation**: Process and extract data insights.
+- **Control Activities**: Control the pipeline execution flow.
+
+## 125. How do you manually execute a Data Factory pipeline?
+A Data Factory pipeline can be manually executed using PowerShell with the command **Invoke-AzDataFactoryV2Pipeline**. You can pass parameters via a JSON file to define the source and sink paths.
+
+## 126. What is the difference between Control Flow and Data Flow in ADF?
+- **Control Flow**: Manages the execution sequence of a pipeline.
+- **Data Flow**: Transforms the data ingested, such as through joins or splits.
+
+## 127. What are data flow partitioning schemes in Azure Data Factory?
+Partitioning schemes in ADF include:
+- **Round Robin**: Distributes data evenly.
+- **Hash**: Partitions data based on column values.
+- **Dynamic Range**: Based on calculated ranges.
+- **Fixed Range**: Based on user-specified ranges.
+- **Key**: Unique partition per key.
+
+## 128. What is trigger execution in Azure Data Factory?
+ADF pipelines can be triggered using:
+- **Schedule Triggers**: Based on a fixed schedule.
+- **Tumbling Window Triggers**: Executes at regular intervals.
+- **Event-Based Triggers**: Based on events like file uploads.
+
+## 129. What are mapping Dataflows in Azure Data Factory?
+**Mapping Dataflows** provide a visual interface for transforming data in ADF without writing code. They are executed within ADF pipelines.
+
+## 130. Explain the key components of Azure.
+Azure has three primary components:
+- **Azure Compute**: Provides compute power via virtual machines (VMs) and containers.
+- **Azure Storage**: Includes blobs, tables, queues, and virtual hard drives (VHD).
+- **Azure AppFabric**: Offers services like access control, caching, integration, and service bus.
+
+## 131. What do you understand by auto-scaling in Azure?
+Auto-scaling allows the automatic adjustment of computing resources based on traffic. There are two types:
+- **Horizontal Scaling**: Adding/removing VMs.
+- **Vertical Scaling**: Increasing/decreasing VM power.
+
+## 132. Differentiate between a page blob and a block blob.
+- **Page Blob**: Stores random-access files like VHDs, with a max size of 1 TB.
+- **Block Blob**: Stores large amounts of data like text and media files, with a max size of 200 GB.
+
+## 133. What do you understand about Azure Diagnostics?
+Azure Diagnostics collects data like logs, metrics, and crash dumps, enabling monitoring, debugging, troubleshooting, and capacity planning for Azure-hosted services.
+
+## 134. What is the architecture of Azure Synapse Analytics?
+Azure Synapse Analytics uses **Massively Parallel Processing (MPP)**, distributing tasks across compute nodes. A control node coordinates the tasks, ensuring fast query performance on massive datasets.
+
+## 135. How are Azure Databricks different from regular Databricks?
+Azure Databricks integrates closely with Azure services and is used for big data processing and machine learning. Regular Databricks may not have the same integration with cloud providers.
+
+## 136. What is Data Engineering?
+**Data engineering** focuses on transforming raw data from multiple sources into usable information via transformation, cleansing, and aggregation.
+
+## 137. What is Azure Synapse Analytics?
+Azure Synapse is an integrated analytics service combining big data analytics and enterprise data warehousing.
+
+## 138. What is Azure Data Masking?
+**Dynamic Data Masking** in Azure limits data exposure to unauthorized users, allowing sensitive data to be obfuscated without modifying the underlying data.
+
+## 139. What is the difference between Azure Synapse Analytics and Azure Data Lake Storage?
+- **Azure Synapse**: Optimized for structured data and analytics.
+- **Azure Data Lake**: Designed for both structured and unstructured data, ideal for big data analytics.
+
+## 140. What are the storage types in Azure?
+- **Blobs**: Unstructured data.
+- **Files**: SMB protocol for file sharing.
+- **Queues**: Messaging store for applications.
+- **Disks**: Persistent storage for VMs.
+- **Tables**: NoSQL storage for structured data.
+
+## 141. What are the security options available in Azure SQL database?
+- **Firewall Rules**: Control access based on IP addresses.
+- **Always Encrypted**: Ensures that data is encrypted end-to-end.
+- **Transparent Data Encryption (TDE)**: Encrypts data at rest.
+- **Auditing**: Logs all database activity for compliance.
+
+## 142. How is data security implemented in ADLS Gen2?
+Security in **Azure Data Lake Storage Gen2** includes:
+- **Azure AD Authentication** for user access.
+- **RBAC and ACLs** for granular permissions.
+- **Encryption at rest** using managed keys.
+- **Network isolation** through virtual networks.
+
+## 143. Why is Azure Data Factory needed?
+Azure Data Factory (ADF) is essential for automating data movement and transformation across different services, replacing manual ETL processes.
+
+## 144. What is Data Modeling?
+Data modeling creates visual representations of data relationships using schemas, such as the **Star Schema** and **Snowflake Schema**.
+
+## 145. What is the Star Schema?
+The **Star Schema** is a simple database schema used in data warehousing, where a central fact table connects to multiple dimension tables.
+
+## 146. How would you validate data migration?
+Validation includes:
+- Comparing source and destination data for consistency.
+- Using checksum/hash to verify data integrity.
+- Ensuring record counts match.
+
+## 147. What is the difference between structured and unstructured data?
+| Feature          | Structured Data         | Unstructured Data    |
+|------------------|-------------------------|----------------------|
+| **Storage**       | DBMS                    | Unmanaged files      |
+| **Scaling**       | Difficult               | Easier               |
+
+## 148. What is a data pipeline?
+A **data pipeline** transports, transforms, and prepares data for analysis or storage.
+
+## 149. Scenario: Your company needs to move data from on-premises SQL Server to Azure SQL Database daily. How would you set this up?
+- Create a self-hosted Integration Runtime (IR).
+- Use **Copy Data** activity to transfer data.
+- Schedule the pipeline using a **trigger**.
+
+## 150. Scenario: You need to transform data from a CSV file in Azure Blob Storage to Azure SQL Database.
+- Create linked services for both Blob Storage and SQL Database.
+- Use **Data Flow** to apply transformations.
+- Write transformed data to SQL Database.
