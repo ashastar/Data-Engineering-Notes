@@ -748,3 +748,159 @@ A **data pipeline** transports, transforms, and prepares data for analysis or st
 
 ## 184. How do you implement Single Sign-On (SSO) in Azure?
 - Configure **Azure Active Directory Sync** to implement Single Sign-On, allowing users to log in once and access multiple applications and systems.
+
+
+
+## 185. How can you make Azure functions?
+- Azure Functions can be created using the Azure portal, Azure CLI, or Visual Studio. Choose the programming language (C#, Python, Java, etc.), configure the triggers (HTTP, Event Grid, Timer, etc.), and deploy the function.
+
+## 186. How can I access the data using the other 80 dataset types in the Data Factory?
+- Use the **Copy Activity** to transfer data from any of the 80 supported data connectors into a staging area like Azure Blob or Data Lake, and then use **Mapping Data Flow** or **Data Flow** to transform and process the data.
+
+## 187. What is Azure SSIS Integration Runtime?
+- **Azure SSIS Integration Runtime (IR)** allows you to run SQL Server Integration Services (SSIS) packages in the cloud as part of Azure Data Factory. It supports lifting and shifting existing on-premises SSIS packages to Azure with minimal changes.
+
+## 188. What are the steps for creating an ETL process in Azure Data Factory?
+1. **Create linked services** for the source (e.g., SQL Server, Blob Storage) and destination (e.g., Azure SQL Database).
+2. **Define datasets** for both the source and destination.
+3. **Create a pipeline** that includes data transformation or copying activities.
+4. **Add activities**, such as Copy Activity for data movement and transformations using Mapping Data Flow.
+5. **Schedule the pipeline** using triggers (e.g., Schedule Trigger, Event-based Trigger).
+
+## 189. Is it feasible to calculate a value for a new column from the existing column in a data flow mapping in Azure Data Factory?
+- Yes, using the **Derived Column transformation** in Mapping Data Flow, you can create a new column by applying expressions to existing columns.
+
+## 190. What differences can be observed in data flows when comparing the private preview phase to the limited public preview phase?
+- In **private preview**, fewer connectors and transformations were available. As the product moved to **public preview**, more connectors (like Parquet) and transformations (like windowing functions) became available, along with improved performance and stability.
+
+## 191. What is the objective of Microsoft Azure’s Data Factory service?
+- Azure Data Factory (ADF) is a cloud-based ETL/ELT service designed to orchestrate and automate the movement and transformation of data across various services and storage solutions, facilitating data integration for analytics, reporting, and business intelligence.
+
+## 192. What are the two levels of security in ADLS Gen2?
+1. **Role-Based Access Control (RBAC)**: Controls user and group access based on roles assigned at the storage account level.
+2. **Access Control Lists (ACLs)**: Provides fine-grained control at the file and folder level, allowing for more detailed security management.
+
+## 193. Can we pass parameters to a pipeline run?
+- Yes, parameters can be passed to a pipeline during execution, allowing dynamic configurations such as different source paths, file names, or other customizable values during runtime.
+
+## 194. Why do we need Azure Data Factory?
+- Azure Data Factory (ADF) automates the movement and transformation of data between disparate sources and destinations, replacing manual ETL/ELT processes, and enables organizations to integrate, prepare, and manage large-scale data for analytics and business insights.
+
+## 195. What is the integration runtime?
+- The **Integration Runtime (IR)** is the compute infrastructure used by Azure Data Factory to perform data integration tasks such as copying data, transforming data, and moving it between different networks or services. There are three types: **Azure IR**, **Self-hosted IR**, and **Azure-SSIS IR**.
+
+## 196. What is the limit on the number of integration runtimes?
+- While there is no strict limit on the number of Integration Runtimes, the limit on the number of virtual machine cores available for SSIS package execution is restricted by the Azure subscription limits. The default is **5000 datasets, pipelines, and linked services** per factory.
+
+## 197. What are the top-level concepts of Azure Data Factory?
+1. **Pipelines**: Logical groupings of activities that perform tasks.
+2. **Activities**: Define the action to perform (e.g., Copy Activity, Data Flow).
+3. **Datasets**: Data structures that define data sources or sinks.
+4. **Linked Services**: Connections to external resources (e.g., databases, Blob Storage).
+5. **Integration Runtime (IR)**: The compute environment where activities are executed.
+
+## 198. How can I schedule a pipeline?
+- Pipelines can be scheduled using **time-based triggers** (e.g., tumbling window, schedule triggers) or **event-based triggers** (e.g., file creation, changes in a storage account).
+
+## 199. Can an activity’s output property be consumed in another activity?
+- Yes, an activity’s output can be consumed by subsequent activities using expressions like `@activity(‘ActivityName’).output`. This enables dynamic pipelines that adapt to the results of previous activities.
+
+## 200. How do I handle null values in an activity output?
+- Use the `@coalesce` function to handle null values in expressions. For example, `@coalesce(activity('LookupActivity').output.firstRow.columnName, 'DefaultValue')` will return a default value if a null is encountered.
+
+## 201. Which Data Factory version do I use to create data flows?
+- Data flows are available in **Azure Data Factory Version 2 (ADF v2)**, which provides a visual drag-and-drop interface for creating complex data transformation workflows without coding.
+
+## 202. What are datasets in Azure Data Factory?
+- **Datasets** in ADF represent data structures within external data stores. They define the schema and location of data, such as a table in a database or a folder in Blob Storage, and are used as inputs or outputs in activities.
+
+## 203. How are pipelines monitored in Azure Data Factory?
+- Pipelines can be monitored using the **Monitor** tab in the Azure Data Factory portal, where you can view the status of pipeline runs, activity runs, and triggers. You can also set up alerts and diagnostics logs to track performance and errors.
+
+## 204. What are the three types of integration runtime?
+1. **Azure IR**: Used for cloud-based data movement and transformation.
+2. **Self-Hosted IR**: Used for on-premises or private network data integration.
+3. **Azure-SSIS IR**: Used to run SSIS packages in the cloud.
+
+## 205. What are the types of data integration design patterns?
+1. **Broadcast**: Distributes data to multiple destinations.
+2. **Bi-directional sync**: Synchronizes data between two systems.
+3. **Correlation**: Links related data across different systems.
+4. **Aggregation**: Combines data from multiple sources into a single dataset.
+
+## 206. What is the difference between Azure Data Lake and Azure Data Warehouse?
+- **Azure Data Lake**: Stores both structured and unstructured data, supports schema-on-read, and is optimized for big data analytics.
+- **Azure Data Warehouse (Synapse Analytics)**: Stores structured data in a predefined schema and is optimized for reporting and analytical queries.
+
+## 207. What is Blob Storage in Azure?
+- **Blob Storage** is a service for storing large amounts of unstructured data, such as text, binary data, multimedia files, and backups. It supports different types of blobs: **Block Blobs** for large files, **Append Blobs** for log data, and **Page Blobs** for random-access read/write operations.
+
+## 208. What is the difference between Azure Data Lake Store and Blob Storage?
+- **Azure Data Lake Store**: Optimized for big data analytics, supports hierarchical file systems and fine-grained access control with ACLs.
+- **Blob Storage**: A general-purpose object storage service with a flat namespace, optimized for unstructured data storage.
+
+## 209. What are the steps for creating ETL processes in Azure Data Factory?
+1. Define **Linked Services** to connect to data sources.
+2. Define **Datasets** for both source and destination.
+3. Create a **Pipeline** with activities such as **Copy Data** or **Mapping Data Flow**.
+4. Schedule the pipeline using a **Trigger** or run it manually.
+
+## 210. What is the difference between HDInsight and Azure Data Lake Analytics?
+- **HDInsight**: A fully managed Hadoop service that supports multiple big data frameworks such as Spark, Hive, and HBase.
+- **Azure Data Lake Analytics**: An on-demand analytics service that uses U-SQL to process big data and automatically scales compute resources as needed.
+
+## 211. Can an activity in a pipeline consume arguments passed to a pipeline run?
+- Yes, you can pass parameters to a pipeline, and activities within the pipeline can consume those arguments for dynamic behavior.
+
+## 212. What has changed from private preview to limited public preview in data flows?
+- During the **public preview**, features like **automatic cluster management**, additional file format support (e.g., Parquet), and improvements in performance were added.
+
+## 213. How do I access data using the other 80 dataset types in Data Factory?
+- Use the **Copy Activity** to stage the data from any of the 80 supported connectors and then use a **Data Flow** to process the data in Azure Data Factory.
+
+## 214. What is the Get Metadata activity in ADF?
+- The **Get Metadata** activity retrieves metadata about a dataset, such as file names, sizes, and last modified dates. The output can then be used in subsequent activities within the pipeline.
+
+## 215. List any 5 types of data sources that Azure Data Factory supports.
+1. **Azure Blob Storage**.
+2. **Azure SQL Database**.
+3. **Azure Data Lake Storage**.
+4. **Amazon S3**.
+5. **Google Cloud Storage**.
+
+## 216. What are the advantages of using ADF pipelines for ETL?
+- **Scalability**: Can process massive amounts of data across multiple environments.
+- **Flexibility**: Supports various data sources and sinks.
+- **Automation**: Enables automatic data movement and transformation.
+- **Monitoring**: Provides built-in logging and monitoring features.
+
+## 217. Can I create a dependency between two pipelines?
+- Yes, you can create dependencies between pipelines using the **Execute Pipeline** activity or by using triggers that activate a pipeline based on the successful completion of another.
+
+## 218. What is Azure Event Grid, and how does it work with Data Factory?
+- **Azure Event Grid** is an event-routing service that allows data factories to react to events in real time, such as file creation or deletion in Blob Storage. Data Factory can trigger pipelines based on these events.
+
+## 219. How does Azure Data Factory handle parallelism?
+- ADF handles parallelism using **activities with concurrency** settings, allowing multiple activities to run simultaneously based on the resource limitations and the configuration of **Integration Runtimes**.
+
+## 220. What are Lookup Activities in Azure Data Factory?
+- **Lookup Activities** retrieve a single row or multiple rows from a source dataset (e.g., SQL database or file), which can then be used as input for subsequent activities like conditional splits or mapping data flows.
+
+## 221. What are the possible data sinks in Azure Data Factory?
+1. **Azure Blob Storage**.
+2. **Azure SQL Database**.
+3. **Azure Data Lake Storage**.
+4. **Amazon S3**.
+5. **SQL Server on-premises**.
+
+## 222. What is the difference between ADF and SSIS?
+- **ADF** is a cloud-based data integration service supporting modern ETL processes in hybrid environments. **SSIS** is an on-premises ETL tool within SQL Server, primarily for structured data and tight integration with SQL Server.
+
+## 223. How does ADF orchestrate data flows?
+- ADF orchestrates data flows by defining **pipelines** that connect data sources to transformations and destinations, automating the entire ETL/ELT process across various services and environments.
+
+## 224. How do you handle errors in Azure Data Factory?
+- ADF handles errors using **Retry policies** within activities and pipelines. Additionally, you can create **Error Handling Paths** to direct failed executions to alternate workflows or logs.
+
+## 225. How can you monitor pipeline runs in ADF?
+- Use the **Monitor** tab in the ADF portal to view pipeline run history, activity status, trigger status, and diagnostic logs for errors and performance metrics.
