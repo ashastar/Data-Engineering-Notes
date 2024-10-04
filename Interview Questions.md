@@ -248,3 +248,141 @@ Solution: Use Azure Virtual Network to create isolated, private networks for com
 ## 60. How Do You Implement Single Sign-On (SSO) in Azure?
 Solution: Configure Azure AD Sync to use single sign-on, allowing users to log in once for access to multiple systems.
 
+
+
+
+# Azure Data Engineer Interview Questions and Answers (Continued)
+
+## 61. What do Azure Data Factory's ARM Templates do? What do they serve?
+ARM templates are JSON files that define the infrastructure for ADF pipelines, such as linked services, datasets, and activities. They are used to move code from development to higher environments like Production or Staging.
+
+## 62. How can we use Data Factory to move code to higher environments?
+Create a feature branch, merge it after verification, and publish the development branch’s code, generating ARM templates for promotion to environments like Staging or Production.
+
+## 63. What are the three tasks that Azure Data Factory supports?
+ADF supports:
+- **Data Movement Activities**: Transfer of data.
+- **Data Transformation Activities**: Transforming data.
+- **Control Flow Activities**: Controlling the flow within pipelines.
+
+## 64. What are the two categories of computing environments supported by Data Factory?
+- **On-Demand Computing Environment**: ADF-managed environment with cluster creation and deletion.
+- **Bring Your Own Environment**: ADF manages existing on-premises infrastructure.
+
+## 65. What are the four steps of the ETL process?
+1. **Integrate and Collect**: Attach to data sources.
+2. **Transform**: Process data using tools like Hadoop or Spark.
+3. **Publish**: Upload data to destinations like Azure SQL.
+4. **Monitor**: Monitor the pipeline using built-in ADF tools.
+
+## 66. Which activity should you use for running a query?
+**Lookup Activity**: Used for querying or retrieving outputs like singleton values, arrays, or control flow activities such as ForEach.
+
+## 67. Can a pipeline run with parameters in ADF?
+Yes, parameters are first-class citizens in ADF and can be passed when triggering a pipeline.
+
+## 68. What is Execute Notebook Activity in ADF?
+It is used to send code to the Databricks cluster. Parameters can be passed using the baseParameters property.
+
+## 69. What ADF constructs are available?
+- **@parameter**: Used to pass values.
+- **@coalesce**: Handles null values.
+- **@activity**: Consumes activity output in subsequent activities.
+
+## 70. Can CI/CD be used with ADF for code deployment?
+Yes, ADF fully supports CI/CD pipelines through Azure DevOps and GitHub for continuous integration and delivery of data pipelines.
+
+## 71. What are variables in ADF?
+Variables store values within an ADF pipeline. They can be system variables (e.g., pipeline name) or user-defined variables.
+
+## 72. What are Data Flow Maps?
+Visually designed transformations in ADF that execute data processing in Apache Spark clusters.
+
+## 73. What is Copy Activity in ADF?
+Copy Activity is used for transferring data from a source to a destination, transforming it during the process if needed.
+
+## 74. Can you explain Copy Activity in more detail?
+Copy Activity extracts, transforms, and writes data into destination data stores, handling actions like compression, table mapping, and serialization.
+
+## 75. How can you schedule a pipeline in ADF?
+You can schedule a pipeline using tumbling window triggers, schedule triggers, or event-based triggers.
+
+## 76. When is ADF the best option?
+ADF is ideal when you need a cloud-based, integrated platform for managing large amounts of data, with graphical tools and minimal infrastructure management.
+
+## 77. How do you access the remaining 90 dataset types in ADF?
+You can access them through Mapping Data Flow or by staging the data using Copy Activity.
+
+## 78. Can you create a new column in ADF?
+Yes, by using the derived column transformation in Mapping Data Flow, you can create or modify columns.
+
+## 79. What is the purpose of the Lookup Activity in ADF?
+Lookup Activity retrieves data from the source dataset and is often used for configuration or decision-making in the pipeline.
+
+## 80. What is Get Metadata Activity in ADF?
+This activity retrieves metadata from a dataset, which can then be used in expressions or subsequent activities.
+
+## 81. How do you debug an ADF pipeline?
+ADF offers debugging options to test and troubleshoot pipeline code without fully running the pipeline.
+
+## 82. What are breakpoints in an ADF pipeline?
+Breakpoints allow you to stop pipeline execution at a specific activity for focused debugging.
+
+## 83. What is the primary function of the ADF Service?
+ADF orchestrates the movement and transformation of data across various sources, serving as an ETL/ELT tool in big data solutions.
+
+## 84. What is a data source in ADF?
+A data source in ADF can be any system holding data, whether it's structured or unstructured, such as databases, files, images, or media.
+
+## 85. How can you copy data from multiple sheets in an Excel file?
+Use ADF's binary format to copy data from multiple Excel sheets without specifying individual sheet names.
+
+## 86. Is nested looping possible in ADF?
+While ADF does not directly support nested loops, you can call loop activities indirectly by using Execute Pipeline within another loop.
+
+## 87. How can you move multiple tables between data centers in ADF?
+Use ForEach and Copy Activity to iterate through a list of tables and copy them between data stores.
+
+## 88. What are some limitations of ADF?
+- No direct support for nested looping.
+- Lookup Activity has a limit of 5000 rows.
+- Activity and container limits in pipelines.
+
+## 89. Which integration runtime should you use for copying data from an on-premises SQL Server?
+Use the Self-Hosted Integration Runtime to copy data from on-premises SQL Server instances.
+
+## 90. What is Azure Data Factory?
+ADF is a serverless, cloud-based ETL and data integration service for automating data movement and transformation across various sources.
+
+## 91. Is ADF an ETL or ELT tool?
+ADF supports both ETL and ELT paradigms.
+
+## 92. Why is ADF required?
+ADF orchestrates processes to transform raw data into usable business insights, necessary for managing growing amounts of big data.
+
+## 93. How is ADF different from traditional ETL tools?
+ADF differs in its enterprise readiness, cloud scalability, UI-driven transformations, and support for both on-premises and cloud environments.
+
+## 94. What are the different pipeline execution methods in ADF?
+You can run pipelines in debug mode, manually via Trigger Now, or schedule them with triggers.
+
+## 95. What do Linked Services in ADF do?
+Linked Services represent data stores or compute environments for executing pipeline activities.
+
+## 96. What is Integration Runtime (IR) in ADF?
+IR provides the compute environment in which ADF activities are executed, serving as the connection between activities and services.
+
+## 97. What types of Integration Runtimes are supported by ADF?
+ADF supports three types of IR:
+- **Azure IR** for cloud data stores and services.
+- **Self-Hosted IR** for private network and on-premises data stores.
+- **Azure SSIS IR** for running SSIS packages.
+
+## 98. What is required to run SSIS packages in ADF?
+You need to create an SSIS Integration Runtime and an SSISDB Catalog hosted in Azure SQL Server or Azure SQL Managed Instance.
+
+## 99. Is there a limit on the number of Integration Runtimes?
+The default limit for datasets, pipelines, linked services, triggers, integration runtimes, and private endpoints is 5000 in a Data Factory.
+
+## 100. What is Microsoft Azure?
+Microsoft Azure is a cloud computing platform that provides services like infrastructure, platforms, and software as a service (IaaS, PaaS, and SaaS). It enables users to access various cloud services, such as computing, storage, and networking, on demand.
