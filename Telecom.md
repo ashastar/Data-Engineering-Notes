@@ -213,3 +213,166 @@
      - Extract metrics from network logs.
      - Use time-series analysis to detect anomalies.
 
+
+
+
+
+
+# Azure Data Engineering Pipeline using Azure Data Factory (ADF)
+
+## Overview
+This pipeline will migrate data from multiple sources (on-premise databases, real-time streaming data, and file storage) to Azure Data Lake Storage (ADLS Gen2), transform the data using Databricks, and load it into Azure Synapse Analytics for reporting and analytics.
+
+## 1. Data Sources
+   - **Billing Database (Oracle)**: Contains customer billing details.
+   - **CRM Database (SQL Server)**: Stores customer contact and service information.
+   - **Call Detail Records (CDR)**: Stored as CSV files on a local file system.
+   - **Network Logs (Kafka)**: Real-time network data.
+
+## 2. Target Architecture
+   - **Bronze Layer (ADLS Gen2)**: Raw data storage.
+   - **Silver Layer (ADLS Gen2)**: Cleaned and transformed data.
+   - **Gold Layer (Azure Synapse Analytics)**: Curated data for analytics.
+   - **Real-Time Processing (Azure Event Hubs + Stream Analytics)**: Real-time data ingestion.
+
+## 3. Pipeline Steps
+
+### Step 1: Data Ingestion
+   - **Objective:** Ingest data from various sources to the Bronze Layer in ADLS Gen2.
+   - **Activities:**
+     1. **Batch Ingestion:**
+        - Use **Copy Data activity** in ADF to extract data from on-premise databases and load it into the Bronze Layer.
+        - Connect to the **Billing Database (Oracle)** using **Self-Hosted Integration Runtime**.
+        - Configure the source dataset for the **CRM Database (SQL Server)** and set up data mapping.
+        - Schedule the ingestion to run daily for billing and CRM data.
+     2. **File-Based Ingestion (CDR Data):**
+        - Use **File System Connector** to connect to the on-premise file system where CDR files are stored.
+        - Configure the **Get Metadata activity** to identify new or modified files.
+        - Use **Copy Data activity** to move CDR files to the Bronze Layer.
+     3. **Real-Time Ingestion (Network Logs):**
+        - Set up **Azure Event Hubs** to capture real-time streaming data.
+        - Use **Azure Stream Analytics** to process and push data to ADLS Gen2.
+
+### Step 2: Data Transformation (Bronze to Silver Layer)
+   - **Objective:** Clean, transform, and enrich data in the Bronze Layer.
+   - **Activities:**
+     1. **Billing Data Transformation:**
+        - Use **Databricks Notebook activity** in ADF to perform transformations such as:
+          - Aggregating monthly billing data.
+          - Enriching with customer segmentation based on billing history.
+     2. **CRM Data Transformation:**
+        - Standardize customer contact details using **Data Flow activity** in ADF.
+        - De-duplicate records based on CustomerID.
+     3. **CDR Data Transformation:**
+        - Clean data by removing incomplete records and formatting timestamps.
+        - Aggregate call duration by customer and classify call types (local, international).
+     4. **Network Logs Transformation:**
+        - Use **Stream Analytics** to filter logs and calculate network performance metrics.
+        - Store processed logs in the Silver Layer.
+
+### Step 3: Data Quality and Validation
+   - **Objective:** Ensure data integrity and accuracy.
+   - **Activities:**
+     - Implement **Data Flow activity** for data quality checks, such as:
+       - Validating data types and checking for null values.
+       - Ensuring records match expected patterns.
+     - Set up **Azure Functions** or **Databricks Jobs** to automate validation rules.
+     - Use **Stored Procedure activity** to log validation results to an audit table in Azure SQL Database.
+
+### Step 4: Data Loading (Silver to Gold Layer)
+   - **Objective:** Load the transformed data from the Silver Layer to Azure Synapse Analytics.
+   - **Activities:**
+     1. **Load to Azure Synapse Analytics:**
+        - Use **Copy Data activity** to transfer data from ADLS Gen2 (Silver Layer) to **dedicated SQL pools** in Azure Synapse Analytics.
+     2. **Data Modeling:**
+        - Create **dimension and fact tables** for analytics:
+          - **FactBilling**: Aggregated monthly billing data.
+          - **FactCalls**: Call records with customer and call type details.
+          - **DimCustomer**: Customer profile information.
+          - **DimNetwork**: Network performance metrics.
+     3. **Indexing and Partitioning:**
+        - Use **Stored Procedure activity** to apply indexing and partitioning for better query performance.
+
+### Step 5: Real-Time Data Processing
+   - **Objective:** Ingest real-time network logs and process them for near-real-time analytics.
+   - **Activities:**
+     1. **Set up Azure Event Hubs** to capture real-time streaming data.
+     2. **Configure Azure Stream Analytics** to process incoming logs:
+        - Apply transformations, filter data, and calculate metrics like latency and packet loss.
+        - Push processed data to both ADLS Gen2 (Silver Layer) and Azure Synapse Analytics for real-time reporting.
+
+### Step 6: Monitoring and Alerts
+   - **Objective:** Monitor pipeline performance and set up alerts for failures.
+   - **Activities:**
+     - Use **ADF monitoring features** to track pipeline execution status.
+     - Set up **alerts** in **Azure Monitor** to notify on pipeline failures or data quality issues.
+     - Configure **Log Analytics** for detailed logs and diagnostics.
+
+### Step 7: Data Security and Compliance
+   - **Objective:** Ensure data security and compliance with telecom regulations.
+   - **Activities:**
+     - Implement **Azure Role-Based Access Control (RBAC)** and **Azure Active Directory (AAD)** for secure access.
+     - Enable **encryption at rest and in transit** for data stored in ADLS Gen2 and Synapse Analytics.
+     - Use **Azure Key Vault** to store and manage secrets (e.g., database connection strings).
+
+### Step 8: Post-Migration Maintenance and Continuous Improvement
+   - **Objective:** Provide ongoing support and optimize the data architecture.
+   - **Activities:**
+     - Continuously monitor and optimize pipeline performance.
+     - Implement **auto-scaling** for Databricks clusters.
+     - Regularly update the data architecture based on evolving business requirements.
+
+## Example Pipeline in Azure Data Factory
+
+```json
+{
+  "name": "TelecomDataMigrationPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "IngestBillingData",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "OracleBillingDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "BronzeLayerBillingData",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "TransformBillingData",
+        "type": "DatabricksNotebookActivity",
+        "linkedServiceName": {
+          "referenceName": "AzureDatabricksLinkedService",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/TransformBillingData"
+        }
+      },
+      {
+        "name": "LoadToSynapse",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "SilverLayerTransformedData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "AzureSynapseSQLPool",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ],
+    "annotations": []
+  }
+}
