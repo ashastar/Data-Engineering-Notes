@@ -376,3 +376,247 @@ This pipeline will migrate data from multiple sources (on-premise databases, rea
     "annotations": []
   }
 }
+
+```json
+
+{
+  "name": "TelecomDataMigrationPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "IngestBillingData",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "OracleBillingDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "BronzeLayerBillingData",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "OracleSource"
+          },
+          "sink": {
+            "type": "AzureBlobSink"
+          }
+        }
+      },
+      {
+        "name": "IngestCRMData",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "SQLServerCRMData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "BronzeLayerCRMData",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SqlSource"
+          },
+          "sink": {
+            "type": "AzureBlobSink"
+          }
+        }
+      },
+      {
+        "name": "IngestCDRData",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "CDRFileData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "BronzeLayerCDRData",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "FileSystemSource"
+          },
+          "sink": {
+            "type": "AzureBlobSink"
+          }
+        }
+      },
+      {
+        "name": "TransformBillingData",
+        "type": "DatabricksNotebookActivity",
+        "linkedServiceName": {
+          "referenceName": "AzureDatabricksLinkedService",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/TransformBillingData",
+          "baseParameters": {
+            "inputPath": "@dataset().BronzeLayerBillingData",
+            "outputPath": "@dataset().SilverLayerBillingData"
+          }
+        }
+      },
+      {
+        "name": "TransformCRMData",
+        "type": "DataFlow",
+        "typeProperties": {
+          "dataflow": {
+            "referenceName": "StandardizeAndDeduplicateCRMData",
+            "type": "DataFlowReference"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "BronzeLayerCRMData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "SilverLayerCRMData",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "TransformCDRData",
+        "type": "DatabricksNotebookActivity",
+        "linkedServiceName": {
+          "referenceName": "AzureDatabricksLinkedService",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/TransformCDRData",
+          "baseParameters": {
+            "inputPath": "@dataset().BronzeLayerCDRData",
+            "outputPath": "@dataset().SilverLayerCDRData"
+          }
+        }
+      },
+      {
+        "name": "ValidateData",
+        "type": "DataFlow",
+        "typeProperties": {
+          "dataflow": {
+            "referenceName": "DataQualityChecks",
+            "type": "DataFlowReference"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "SilverLayerBillingData",
+            "type": "DatasetReference"
+          },
+          {
+            "referenceName": "SilverLayerCRMData",
+            "type": "DatasetReference"
+          },
+          {
+            "referenceName": "SilverLayerCDRData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "ValidatedData",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "LoadToGoldLayer",
+        "type": "CopyActivity",
+        "inputs": [
+          {
+            "referenceName": "ValidatedData",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "GoldLayerSynapseData",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "SqlSink",
+            "preCopyScript": "TRUNCATE TABLE [Gold].[FactData]"
+          }
+        }
+      },
+      {
+        "name": "RealTimeIngestion",
+        "type": "StreamAnalyticsActivity",
+        "linkedServiceName": {
+          "referenceName": "AzureStreamAnalyticsLinkedService",
+          "type": "LinkedServiceReference"
+        },
+        "typeProperties": {
+          "scriptPath": "/Shared/RealTimeNetworkLogsProcessing",
+          "baseParameters": {
+            "inputSource": "@dataset().EventHubsNetworkLogs",
+            "outputSink": "@dataset().GoldLayerNetworkLogs"
+          }
+        }
+      },
+      {
+        "name": "MonitorPipeline",
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "url": "https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.DataFactory/factories/{data-factory}/pipelines/MonitorPipeline/run",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "status": "@pipeline().status",
+            "message": "Pipeline execution completed successfully."
+          }
+        }
+      }
+    ],
+    "annotations": [
+      "Telecom Data Migration Pipeline using Medallion Architecture"
+    ]
+  }
+}
+
+Explanation:
+Ingest Data (Bronze Layer):
+
+Ingests data from multiple sources (Oracle, SQL Server, CSV files) to the Bronze Layer using the CopyActivity.
+IngestBillingData, IngestCRMData, and IngestCDRData are different activities for each source.
+Data Transformation (Silver Layer):
+
+TransformBillingData, TransformCRMData, and TransformCDRData transform raw data using Databricks and Data Flow activities.
+The data is cleansed and enriched, moving to the Silver Layer.
+Data Validation:
+
+The ValidateData activity performs data quality checks using Data Flow.
+Loading to Gold Layer:
+
+The LoadToGoldLayer activity loads validated data into Azure Synapse Analytics, where it's stored in the Gold Layer for analytics.
+Real-Time Ingestion:
+
+RealTimeIngestion processes real-time network logs using Azure Stream Analytics and writes to the Gold Layer.
+Monitoring:
+
+The MonitorPipeline activity posts the status of the pipeline execution to a monitoring endpoint.
