@@ -143,3 +143,13 @@ Recordings :  https://drive.google.com/drive/folders/1V83kkw4KFWfoWLym4FzVc1b_zl
 
 
 ===============================================END TO END PROJECTS ============================================================================
+
+
+https://www.youtube.com/watch?v=mECDWTYiKp4&list=PLrG_BXEk3kXx6KE4nBmhf6QwSHMbznP2W
+
+https://www.youtube.com/watch?v=yHU9ADk10eQ&pp=ygUqYXp1cmUgZGF0YSBlbmdpbmVlcmluZyBlbmQgdG8gZW5kIHByb2plY3Rz
+
+https://www.youtube.com/watch?v=Q67lxikOKjA&list=PLAuPRlpK6sGJnpMg1DHTrLMfjymxbakqa&index=4
+
+
+
