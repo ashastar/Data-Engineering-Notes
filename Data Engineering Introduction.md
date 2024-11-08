@@ -176,3 +176,50 @@ Normalization: This is the process of organizing data in a relational database t
 - Third Normal Form (3NF): Extends 2NF by eliminating transitive dependencies, ensuring that non-key attributes are not dependent on other non-key attributes.
 
 Higher normal forms (e.g., Boyce-Codd Normal Form, Fourth Normal Form) exist but are less commonly used in practice.
+
+
+## Database Design
+
+### Normalization and Denormalization
+
+Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity. It involves breaking down tables into smaller, more manageable units by applying a series of normal forms (1NF, 2NF, 3NF, etc.).
+
+Denormalization, on the other hand, is the process of intentionally introducing redundancy into a database design to improve read performance for specific queries.
+
+### Entity-Relationship Diagrams (ERD)
+
+ERDs are visual representations of the relationships between entities in a database. They help in understanding the structure and dependencies within a database, making it easier to design and maintain complex systems.
+
+### Star and Snowflake Schema Designs
+
+These are common approaches for designing data warehouses:
+
+- Star Schema: Consists of a central fact table surrounded by dimension tables
+- Snowflake Schema: An extension of the star schema where dimension tables are normalized into multiple related tables
+
+## Data Warehousing Concepts
+
+### OLTP vs. OLAP
+
+OLTP (Online Transaction Processing) systems are designed for handling real-time transactions and operational data. They are optimized for write operations and support day-to-day business operations.
+
+OLAP (Online Analytical Processing) systems are optimized for complex queries and data analysis. They support read-heavy workloads and are used for business intelligence and decision-making processes.
+
+### Data Warehousing Architecture
+
+A typical data warehousing architecture includes:
+
+- Data Sources: Various internal and external data origins
+- ETL/ELT Processes: For data integration and transformation
+- Data Storage: Centralized repository for integrated data
+- Data Access Tools: Interfaces for querying and analyzing warehouse data
+
+### Data Marts
+
+Data marts are subsets of a data warehouse focused on specific business areas or departments. They provide tailored data access and analysis capabilities for particular user groups within an organization.
+
+### ETL vs. ELT
+
+ETL (Extract, Transform, Load) is the traditional approach where data is transformed before loading into the target system. It's suitable for complex transformations and when the target system has limited processing power.
+
+ELT (Extract, Load, Transform) is a modern approach where raw data is loaded first, then transformed within the target system. It's beneficial when using powerful data warehousing platforms that can handle large-scale transformations efficiently.
