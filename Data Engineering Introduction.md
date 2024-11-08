@@ -223,3 +223,30 @@ Data marts are subsets of a data warehouse focused on specific business areas or
 ETL (Extract, Transform, Load) is the traditional approach where data is transformed before loading into the target system. It's suitable for complex transformations and when the target system has limited processing power.
 
 ELT (Extract, Load, Transform) is a modern approach where raw data is loaded first, then transformed within the target system. It's beneficial when using powerful data warehousing platforms that can handle large-scale transformations efficiently.
+
+
+# Data Engineering and Database Design Questions
+
+### 1. What is Data Engineering, and how does it differ from Data Science?
+### 2. Explain the concept of data pipelines. What are their main components?
+### 3. What are the differences between batch processing and real-time processing?
+### 4. How do you ensure data quality and integrity in a data pipeline?
+### 5. What is the role of a Data Engineer in data governance?
+### 6. Define the terms OLTP and OLAP. How do they differ in terms of architecture and use cases?
+### 7. What is the importance of data normalization in relational databases?
+### 8. How does denormalization affect database performance?
+### 9. What are the main differences between relational and non-relational databases? Provide examples of when to use each.
+### 10. Explain the concept of Entity-Relationship Diagrams (ERD) and their importance in database design.
+### 11. What are Star and Snowflake schemas, and when would you choose one over the other in a data warehouse design?
+### 12. What are the advantages and challenges of using a Data Lake compared to a Data Warehouse?
+### 13. What is ETL, and how does it differ from ELT? In what scenarios would you use each?
+### 14. Describe the architecture of a typical data warehouse.
+### 15. In the context of Data Engineering, what are Data Marts, and why are they important?
+### 16. How would you design a database schema for an e-commerce platform that needs to handle high transaction volumes?
+### 17. Scenario: You are tasked with building a data pipeline to integrate data from multiple sources (CSV files, REST APIs, and a relational database) into a central data warehouse. How would you approach this task?
+### 18. Scenario: You are working with a data lake that stores raw data from IoT devices. What steps would you take to process and store this data for future analysis?
+### 19. Scenario: You are tasked with optimizing an existing SQL query that performs poorly. What strategies would you employ to improve its performance?
+### 20. Scenario: A company wants to implement real-time data processing for fraud detection. Which technologies and architecture would you recommend for handling high-velocity data streams?
+
+
+
