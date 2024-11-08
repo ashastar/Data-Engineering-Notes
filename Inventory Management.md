@@ -67,3 +67,11 @@ This pipeline facilitates the migration of an inventory management system from a
 - **Real-time Insights**: Accurate and up-to-date information on inventory.
 - **Resilience**: Robust alerting and monitoring ensure system health.
 - **Flexibility**: Azure services provide adaptable solutions for future needs.
+
+
+
+##### 
+
+
+
+
