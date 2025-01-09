@@ -13,6 +13,134 @@ This pipeline facilitates the migration of an inventory management system from a
 6. **Azure Monitor** for logging and alerts
 
 ---
+# Tables and Columns for Inventory Management System
+
+## 1. **Products**
+   - **Columns:**
+     - ProductID (Primary Key)
+     - ProductName
+     - Category
+     - QuantityAvailable
+     - UnitPrice
+     - SupplierID (Foreign Key)
+     - RestockLevel
+     - CreatedAt
+     - UpdatedAt
+
+## 2. **Suppliers**
+   - **Columns:**
+     - SupplierID (Primary Key)
+     - SupplierName
+     - ContactName
+     - PhoneNumber
+     - Email
+     - Address
+     - City
+     - Country
+     - CreatedAt
+     - UpdatedAt
+
+## 3. **PurchaseOrders**
+   - **Columns:**
+     - PurchaseOrderID (Primary Key)
+     - SupplierID (Foreign Key)
+     - OrderDate
+     - DeliveryDate
+     - TotalAmount
+     - Status
+     - CreatedAt
+     - UpdatedAt
+
+## 4. **SalesTransactions**
+   - **Columns:**
+     - TransactionID (Primary Key)
+     - CustomerID (Foreign Key)
+     - ProductID (Foreign Key)
+     - TransactionDate
+     - QuantitySold
+     - TotalPrice
+     - PaymentMethod
+     - CreatedAt
+     - UpdatedAt
+
+## 5. **Customers**
+   - **Columns:**
+     - CustomerID (Primary Key)
+     - CustomerName
+     - Email
+     - PhoneNumber
+     - Address
+     - City
+     - Country
+     - LoyaltyPoints
+     - CreatedAt
+     - UpdatedAt
+
+## 6. **StockAdjustments**
+   - **Columns:**
+     - AdjustmentID (Primary Key)
+     - ProductID (Foreign Key)
+     - AdjustmentType (Increase/Decrease)
+     - QuantityAdjusted
+     - Reason
+     - AdjustedBy
+     - AdjustmentDate
+     - CreatedAt
+     - UpdatedAt
+
+## 7. **InventoryLogs**
+   - **Columns:**
+     - LogID (Primary Key)
+     - ProductID (Foreign Key)
+     - QuantityBefore
+     - QuantityAfter
+     - ActionType (e.g., Sale, Restock, Adjustment)
+     - ActionDate
+     - PerformedBy
+     - Notes
+     - CreatedAt
+     - UpdatedAt
+
+## 8. **ECommerceOrders**
+   - **Columns:**
+     - OrderID (Primary Key)
+     - Platform (e.g., Amazon, Shopify)
+     - CustomerID (Foreign Key)
+     - ProductID (Foreign Key)
+     - OrderDate
+     - QuantityOrdered
+     - TotalPrice
+     - OrderStatus
+     - CreatedAt
+     - UpdatedAt
+
+## 9. **IoTDeviceLogs**
+   - **Columns:**
+     - LogID (Primary Key)
+     - DeviceID (Foreign Key)
+     - ProductID (Foreign Key)
+     - EventType (e.g., Stock In, Stock Out)
+     - Quantity
+     - Timestamp
+     - Location
+     - CreatedAt
+     - UpdatedAt
+
+## 10. **CompetitorData**
+   - **Columns:**
+     - CompetitorID (Primary Key)
+     - CompetitorName
+     - ProductID (Foreign Key)
+     - CompetitorPrice
+     - StockAvailability
+     - LastUpdated
+     - CreatedAt
+     - UpdatedAt
+
+
+
+
+
 
 ## Pipeline Steps
 
