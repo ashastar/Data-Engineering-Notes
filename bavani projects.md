@@ -1,9 +1,8 @@
 # Loyalty Card Subscriptions Data Engineering Pipeline
 
-## **1. Introduction**
+
 Loyalty card subscriptions help retailers track customer purchases, reward loyal shoppers, and enhance engagement. A well-structured data pipeline ensures efficient data collection, transformation, and analysis to generate insights that improve customer retention.
 
-# Loyalty Card Subscriptions in Retail
 
 ## **1. Introduction**
 Loyalty card subscriptions are a key strategy in retail that encourage repeat purchases by rewarding customers for their loyalty. These programs allow businesses to collect valuable customer data, personalize offers, and improve customer retention.
