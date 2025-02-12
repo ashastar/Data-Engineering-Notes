@@ -93,3 +93,13 @@ fileExtension('/data/employees.csv')    -- Extract file extension
 filePath('/data/employees.csv')         -- Get file path without extension
 exists('/data/employees.csv')           -- Check if file exists
 size('/data/employees.csv')             -- Get file size
+
+
+
+iif(dateDiff(OrderDate, ShipDate, 'Day') > 5, 'Delayed', 'On Time')
+
+iif(Quantity == 0, 'Out of Stock', 'Available')
+
+
+
+
