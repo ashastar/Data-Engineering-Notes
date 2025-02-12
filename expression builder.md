@@ -60,3 +60,36 @@ and(Age > 30, Salary > 50000)            -- Employees older than 30 earning abov
 or(Age < 25, Salary > 70000)             -- Employees younger than 25 or earning above 70k
 equals(Department, 'IT')                 -- Check if department is IT
 coalesce(null, 'No Data Available')      -- Return default value if null
+
+
+
+array(EmployeeID, Name, Department)      -- Create an array with employee data
+length(array(EmployeeID, Name))          -- Get array length
+join(array('HR', 'IT', 'Finance'), '-')  -- Join departments into string
+first(array('Alice', 'Bob', 'Charlie'))  -- Get first employee name in array
+last(array('Alice', 'Bob', 'Charlie'))   -- Get last employee name in array
+indexOf(array('HR', 'IT', 'Finance'), 'IT') -- Get index of 'IT' in department array
+union(array('HR', 'IT'), array('Finance', 'IT')) -- Merge arrays
+intersect(array('HR', 'IT'), array('IT', 'Finance')) -- Get common departments
+except(array('HR', 'IT', 'Finance'), array('IT')) -- Remove 'IT' from department list
+contains(array('HR', 'IT', 'Finance'), 'IT') -- Check if 'IT' exists in array
+
+
+
+
+toInteger('123')                         -- Convert string to integer
+toFloat('12.34')                         -- Convert string to float
+toBoolean('true')                        -- Convert string to boolean
+toDate('2022-10-12')                     -- Convert string to date
+string(Salary)                           -- Convert Salary to string
+json('{ "EmployeeID": 101, "Name": "Alice" }') -- Parse JSON string
+base64(Name)                             -- Encode employee name to Base64
+decodeBase64(base64(Name))               -- Decode Base64 to original name
+
+
+
+fileName('/data/employees.csv')         -- Extract file name
+fileExtension('/data/employees.csv')    -- Extract file extension
+filePath('/data/employees.csv')         -- Get file path without extension
+exists('/data/employees.csv')           -- Check if file exists
+size('/data/employees.csv')             -- Get file size
