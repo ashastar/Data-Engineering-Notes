@@ -17,4 +17,11 @@
 toUpper(Name)                          -- Convert employee name to uppercase
 toLower(Department)                    -- Convert department name to lowercase
 length(Name)                            -- Get length of employee name
-concat(Name, ' -
+concat(Name, ' - ', Department)         -- Concatenate name and department
+replace(Department, 'HR', 'Human Resources') -- Replace 'HR' with full form
+substring(Name, 0, 3)                   -- Extract first 3 letters of name
+startsWith(Name, 'A')                   -- Check if name starts with 'A'
+endsWith(Name, 'e')                     -- Check if name ends with 'e'
+indexOf(Name, 'a')                      -- Find position of letter 'a' in name
+trim(Name)                              -- Trim spaces from employee name
+contains(Name, 'Bob')                   -- Check if name contains 'Bob'
