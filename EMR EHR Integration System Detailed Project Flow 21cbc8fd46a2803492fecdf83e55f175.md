@@ -90,7 +90,9 @@ This critical first step involves a comprehensive discovery and analysis of ever
 Based on the source profiling, we define specific ingestion strategies tailored to the capabilities and requirements of each system. This is not a one-size-fits-all approach. For FHIR APIs, we designed an incremental extraction pattern that leverages change tracking tokens or last-updated timestamps to pull only new or modified records, minimizing the load on source EMRs and enabling near-real-time data availability. For legacy HL7 systems, we implemented an event-based trigger mechanism. As soon as a new batch file is dropped onto the secure SFTP server, an Azure Data Factory trigger fires, initiating the ingestion process within minutes. For ancillary file-based sources, we configured scheduled batch extractions using tumbling windows to process data for specific time periods, ensuring complete and idempotent processing. This multi-pattern approach optimizes for timeliness, source system stability, and architectural efficiency.
 - **Design the Medallion Architecture on Azure Data Lake Gen2**
 The core of our storage and transformation strategy is the Medallion Architecture, implemented on Azure Data Lake Storage (ADLS) Gen2. We meticulously designed a three-layer logical structure to progressively refine data. The **Bronze Layer** serves as the raw, immutable landing zone. The **Silver Layer** is where the data is cleansed, conformed, and integrated. The **Gold Layer** contains the final, business-ready data, aggregated and modeled for analytics. This layered approach provides clear separation of concerns, enhances data quality, and supports a wide range of use cases from data science to executive reporting.
-    
+
+
+
     **20 Key Delta Tables Across Layers:**
     
     - **Bronze Tables (Raw & Immutable):** `bronze_fhir_patient`, `bronze_fhir_encounter`, `bronze_fhir_observation`, `bronze_fhir_condition`, `bronze_hl7_adt_messages`, `bronze_hl7_orm_messages`, `bronze_hl7_oru_messages`, `bronze_ancillary_claims_csv`, `bronze_ancillary_provider_dir_csv`, `bronze_ancillary_labcorp_xml`.
@@ -104,7 +106,34 @@ From day one, security and HIPAA compliance were designed into the architecture,
 ### **STEP 2: Data Ingestion Using Azure Data Factory (ADF)**
 
 This stage focuses on the implementation of robust, scalable, and auditable data pipelines in Azure Data Factory to move raw data from its diverse sources into the Bronze layer of our data lake. The design prioritizes modularity, reusability, and operational resilience.
+graph TD
+    %% Main Step
+    B["Step 2: ADF Ingestion Framework"];
 
+    %% Foundational Concepts
+    B --> B1["Create Centralized Linked Services & Datasets"];
+    B --> B2["Parameterize Pipelines for Reusability"];
+    B --> B3["Develop Modular, Source-Specific Pipelines"];
+
+    %% Parent Pipeline Orchestration
+    B3 --> P["Parent Pipeline: PL_Master_Orchestrator"];
+    P --> P1["1. Lookup: Get Active Source Configuration"];
+    P1 --> P2["2. ForEach: Source System (Parallel Execution)"];
+    
+    %% Inside ForEach Loop - Child Pipelines
+    P2 --> C1["Child: PL_Ingest_FHIR_API"];
+    P2 --> C2["Child: PL_Ingest_HL7_SFTP"];
+    P2 --> C3["Child: PL_Ingest_Ancillary_Files"];
+
+    %% Post-Ingestion Orchestration
+    P2 --> P3["3. Wait: Await Completion of All Ingestion Tasks"];
+    P3 --> P4["4. Execute Pipeline: PL_Orchestrate_Synapse_Transforms"];
+    P4 --> P5["5. Stored Procedure: Log Master Pipeline Success"];
+
+    %% Error Handling Path
+    P --> F1["On Failure Path"];
+    F1 --> F2["Child Pipeline: PL_Send_Failure_Alert"];
+    F2 --> F3["Notify Team via Logic App/Teams"];
 **Subtopics:**
 
 - **Create Centralized Linked Services and Datasets**
@@ -180,6 +209,34 @@ This phase covers the physical and logical organization of data within Azure Dat
 
 This is the core "Transform" stage of our ELT architecture, where the raw data landed in the Bronze layer is progressively refined, enriched, and modeled for analytics using the power of Apache Spark within Azure Synapse.
 
+graph TD
+    %% Main Step
+    D["Step 4: Synapse Spark Transformation"];
+
+    %% Bronze to Silver Processing
+    D --> D1["Read from Bronze Delta Tables"];
+    D1 --> D2["Bronze-to-Silver Processing"];
+    D2 --> D2a["Parse: JSON, HL7, XML"];
+    D2 --> D2b["Cleanse: Standardize Types, Handle Nulls"];
+    D2 --> D2c["Harmonize: Map to LOINC, SNOMED, ICD-10"];
+
+    %% Patient Master Index (PMI)
+    D2c --> D3["Patient Master Index (PMI) Process"];
+    D3 --> D3a["1. Standardize PII"];
+    D3a --> D3b["2. Phonetic Encoding (Soundex)"];
+    D3b --> D3c["3. Blocking"];
+    D3c --> D3d["4. Probabilistic Scoring"];
+    D3d --> D3e["5. Master Record Creation (Graph)"];
+    
+    %% Silver to Gold Processing
+    D3e --> D4["Silver-to-Gold Processing"];
+    D4 --> D4a["Build Dimension Tables (e.g., Dim_Patient)"];
+    D4 --> D4b["Generate Surrogate Keys"];
+    D4 --> D4c["Build Fact Tables (e.g., Fact_Encounters)"];
+    
+    %% Final Output
+    D4c --> D5["Write to Gold Delta Tables"];
+    
 **Subtopics:**
 
 - **Bronze to Silver: Cleansing, Harmonization, and Conforming**
