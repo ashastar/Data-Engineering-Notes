@@ -6,6 +6,55 @@
 
 This foundational phase is dedicated to establishing the strategic vision, technical framework, and governance policies for the entire project. It involves deep collaboration with clinical, operational, and IT stakeholders to ensure the final solution is aligned with business objectives and compliant with all regulatory mandates. Decisions made here have a cascading impact on every subsequent stage, from ingestion to analytics.
 
+
+graph TD;
+    A["STEP 1: Requirements & Architecture Planning"] --> B["STEP 2: Data Ingestion Using Azure Data Factory (ADF)"];
+    B --> C["STEP 3: Data Storage in Azure Data Lake"];
+    
+    %% Step 1 Details
+    A --> A1["Identify and Profile Data Sources"];
+    A --> A2["Define Data Ingestion Frequency and Patterns"];
+    A --> A3["Design Medallion Architecture on Azure Data Lake Gen2"];
+    A --> A4["Establish Security, Governance, and HIPAA Compliance"];
+    
+    %% Step 2 Details
+    B --> B1["Create Centralized Linked Services and Datasets"];
+    B --> B2["Develop Modular, Source-Specific Ingestion Pipelines"];
+    B --> B3["Parameterize Pipelines for Maximum Reusability"];
+    
+    %% Specific Pipelines
+    B2 --> B2a["PL_Master_Orchestrator"];
+    B2a --> B2a1["Lookup_Get_Source_Config"];
+    B2a --> B2a2["ForEach_Source_System"];
+    B2a2 --> B2a3["Switch_On_Source_Type"];
+    B2a3 --> B2a4a["Execute_Pipeline_FHIR_Ingestion"];
+    B2a3 --> B2a4b["Execute_Pipeline_HL7_Ingestion"];
+    B2a3 --> B2a4c["Execute_Pipeline_File_Ingestion"];
+    B2a --> B2a5["Wait_All_Ingestion_Tasks"];
+    B2a5 --> B2a6["Execute_Pipeline_Medallion_Transform"];
+    
+    %% Step 3 Details
+    C --> C1["Implement Layered Folder Structure (Bronze, Silver, Gold)"];
+    C --> C2["Define Strategic Partitioning Scheme"];
+    
+    %% Data Flow Through Layers
+    C1 --> C1a["Bronze Layer (Raw Data)"];
+    C1a --> C1a1["bronze_fhir_patient"];
+    C1a --> C1a2["bronze_hl7_adt_messages"];
+    C1a --> C1a3["bronze_ancillary_claims_csv"];
+    
+    C1a --> C1b["Silver Layer (Cleansed Data)"];
+    C1b --> C1b1["silver_patient_demographics_unioned"];
+    C1b --> C1b2["silver_encounters_conformed"];
+    
+    C1b --> C1c["Gold Layer (Business-Ready)"];
+    C1c --> C1c1["gold_dim_patient"];
+    C1c --> C1c2["gold_fact_encounters"];
+    
+    %% Error Handling
+    B2a --> B2a7["Execute_Pipeline_Send_Failure_Alert"];
+
+    
 **Subtopics:**
 
 - **Identify and Profile Data Sources**
