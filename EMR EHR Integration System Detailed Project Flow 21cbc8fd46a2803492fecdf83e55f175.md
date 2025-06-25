@@ -106,6 +106,8 @@ From day one, security and HIPAA compliance were designed into the architecture,
 ### **STEP 2: Data Ingestion Using Azure Data Factory (ADF)**
 
 This stage focuses on the implementation of robust, scalable, and auditable data pipelines in Azure Data Factory to move raw data from its diverse sources into the Bronze layer of our data lake. The design prioritizes modularity, reusability, and operational resilience.
+
+```
 graph TD
     %% Main Step
     B["Step 2: ADF Ingestion Framework"];
@@ -134,6 +136,7 @@ graph TD
     P --> F1["On Failure Path"];
     F1 --> F2["Child Pipeline: PL_Send_Failure_Alert"];
     F2 --> F3["Notify Team via Logic App/Teams"];
+```
 **Subtopics:**
 
 - **Create Centralized Linked Services and Datasets**
@@ -208,7 +211,7 @@ This phase covers the physical and logical organization of data within Azure Dat
 ### **STEP 4: Data Transformation Using Azure Synapse Spark**
 
 This is the core "Transform" stage of our ELT architecture, where the raw data landed in the Bronze layer is progressively refined, enriched, and modeled for analytics using the power of Apache Spark within Azure Synapse.
-
+```
 graph TD
     %% Main Step
     D["Step 4: Synapse Spark Transformation"];
@@ -236,7 +239,7 @@ graph TD
     
     %% Final Output
     D4c --> D5["Write to Gold Delta Tables"];
-    
+```
 **Subtopics:**
 
 - **Bronze to Silver: Cleansing, Harmonization, and Conforming**
