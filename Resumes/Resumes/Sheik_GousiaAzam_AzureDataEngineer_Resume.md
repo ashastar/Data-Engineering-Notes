@@ -1,8 +1,7 @@
 # SHEIK GOUSIAAZAM
 **Azure Data Engineer | 8+ Years Experience | Banking & Finance Domain**
 
-**Email:** gouse.dss@gmail.com | **Phone:** +91-9886467656  
-**LinkedIn:** www.linkedin.com/in/gousia-azam-s-927a39105 | **Location:** Bangalore, India
+
 
 ---
 
@@ -154,3 +153,4 @@ Senior Lead Azure Data Engineer with 8+ years of experience in designing, buildi
 
 ## LANGUAGES
 English (Professional), Telugu (Native), Hindi (Conversational)
+
