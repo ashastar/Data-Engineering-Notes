@@ -616,6 +616,848 @@ LIME: Local interpretable model explanations
 Partial Dependence: Feature effect visualization
 ```
 
+### 16. Advanced Customer Analytics Theory
+
+#### 16.1 Customer Lifetime Value (CLV) Advanced Models
+**Advanced CLV Models** for better customer valuation:
+
+```python
+import numpy as np
+import pandas as pd
+from scipy import stats
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+import matplotlib.pyplot as plt
+
+class AdvancedCLVCalculator:
+    """
+    Advanced Customer Lifetime Value Calculator
+    
+    Implements multiple CLV models including BG/NBD, Pareto/NBD, and Machine Learning approaches
+    """
+    
+    def __init__(self):
+        """Initialize CLV calculator"""
+        self.models = {}
+        self.feature_importance = {}
+    
+    def calculate_bg_nbd_clv(self, customer_data):
+        """
+        Calculate CLV using Beta-Geometric/NBD model
+        
+        This model assumes:
+        - Customer purchases follow a Poisson process
+        - Customer lifetime follows a geometric distribution
+        - Heterogeneity in purchase rates follows a gamma distribution
+        - Heterogeneity in dropout rates follows a beta distribution
+        
+        Args:
+            customer_data: DataFrame with columns ['customer_id', 'frequency', 'recency', 'T']
+            
+        Returns:
+            DataFrame with CLV predictions
+        """
+        # BG/NBD parameters (these would typically be estimated from data)
+        r, alpha, a, b = 0.243, 4.414, 0.793, 2.426
+        
+        def bg_nbd_pmf(x, r, alpha, a, b):
+            """Probability mass function for BG/NBD"""
+            if x == 0:
+                return 1 - (a / (a + b))
+            else:
+                return (a / (a + b)) * (r / (r + alpha)) ** x * (alpha / (r + alpha))
+        
+        def bg_nbd_clv(frequency, recency, T, r, alpha, a, b, monetary_value=1):
+            """Calculate CLV using BG/NBD model"""
+            # Probability of being alive
+            p_alive = 1 / (1 + (a / (a + b)) * ((r + alpha) / (r + alpha + T)) ** (r + frequency))
+            
+            # Expected future purchases
+            if frequency == 0:
+                future_purchases = 0
+            else:
+                future_purchases = (r + frequency) / (r + alpha + T) * p_alive
+            
+            # CLV = Expected future purchases * Average order value
+            clv = future_purchases * monetary_value
+            return clv
+        
+        # Calculate CLV for each customer
+        clv_values = []
+        for _, row in customer_data.iterrows():
+            clv = bg_nbd_clv(
+                row['frequency'], row['recency'], row['T'], 
+                r, alpha, a, b, row.get('monetary_value', 1)
+            )
+            clv_values.append(clv)
+        
+        customer_data['bg_nbd_clv'] = clv_values
+        return customer_data
+    
+    def calculate_pareto_nbd_clv(self, customer_data):
+        """
+        Calculate CLV using Pareto/NBD model
+        
+        This model assumes:
+        - Customer purchases follow a Poisson process
+        - Customer lifetime follows an exponential distribution
+        - Heterogeneity in purchase rates follows a gamma distribution
+        - Heterogeneity in dropout rates follows a gamma distribution
+        
+        Args:
+            customer_data: DataFrame with customer transaction data
+            
+        Returns:
+            DataFrame with CLV predictions
+        """
+        # Pareto/NBD parameters (these would typically be estimated from data)
+        r, alpha, s, beta = 0.553, 10.578, 0.606, 11.669
+        
+        def pareto_nbd_clv(frequency, recency, T, r, alpha, s, beta, monetary_value=1):
+            """Calculate CLV using Pareto/NBD model"""
+            # Probability of being alive
+            if frequency == 0:
+                p_alive = 1
+            else:
+                p_alive = 1 / (1 + (s / (s + beta)) * ((r + alpha) / (r + alpha + T)) ** (r + frequency))
+            
+            # Expected future purchases
+            if frequency == 0:
+                future_purchases = 0
+            else:
+                future_purchases = (r + frequency) / (r + alpha + T) * p_alive
+            
+            # CLV = Expected future purchases * Average order value
+            clv = future_purchases * monetary_value
+            return clv
+        
+        # Calculate CLV for each customer
+        clv_values = []
+        for _, row in customer_data.iterrows():
+            clv = pareto_nbd_clv(
+                row['frequency'], row['recency'], row['T'], 
+                r, alpha, s, beta, row.get('monetary_value', 1)
+            )
+            clv_values.append(clv)
+        
+        customer_data['pareto_nbd_clv'] = clv_values
+        return customer_data
+    
+    def calculate_ml_clv(self, customer_data, features):
+        """
+        Calculate CLV using Machine Learning models
+        
+        Args:
+            customer_data: DataFrame with customer data
+            features: List of feature column names
+            
+        Returns:
+            DataFrame with ML-based CLV predictions
+        """
+        # Prepare features
+        X = customer_data[features]
+        y = customer_data['actual_clv']  # This would be calculated from historical data
+        
+        # Split data
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Train Random Forest model
+        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+        rf_model.fit(X_train, y_train)
+        
+        # Make predictions
+        y_pred = rf_model.predict(X_test)
+        
+        # Calculate feature importance
+        self.feature_importance['random_forest'] = dict(zip(features, rf_model.feature_importances_))
+        
+        # Store model
+        self.models['random_forest'] = rf_model
+        
+        # Add predictions to data
+        customer_data['ml_clv'] = rf_model.predict(X)
+        
+        return customer_data
+    
+    def calculate_ensemble_clv(self, customer_data):
+        """
+        Calculate ensemble CLV by combining multiple models
+        
+        Args:
+            customer_data: DataFrame with customer data
+            
+        Returns:
+            DataFrame with ensemble CLV predictions
+        """
+        # Calculate CLV using different models
+        customer_data = self.calculate_bg_nbd_clv(customer_data)
+        customer_data = self.calculate_pareto_nbd_clv(customer_data)
+        
+        # Ensemble CLV (weighted average)
+        customer_data['ensemble_clv'] = (
+            0.4 * customer_data['bg_nbd_clv'] + 
+            0.4 * customer_data['pareto_nbd_clv'] + 
+            0.2 * customer_data.get('ml_clv', customer_data['bg_nbd_clv'])
+        )
+        
+        return customer_data
+
+# Usage Example
+clv_calculator = AdvancedCLVCalculator()
+
+# Sample customer data
+customer_data = pd.DataFrame({
+    'customer_id': range(1, 101),
+    'frequency': np.random.poisson(5, 100),
+    'recency': np.random.uniform(0, 365, 100),
+    'T': np.random.uniform(365, 1095, 100),
+    'monetary_value': np.random.uniform(50, 500, 100),
+    'actual_clv': np.random.uniform(100, 2000, 100)
+})
+
+# Calculate CLV using different models
+customer_data = clv_calculator.calculate_ensemble_clv(customer_data)
+
+print("CLV Calculation Results:")
+print(customer_data[['customer_id', 'bg_nbd_clv', 'pareto_nbd_clv', 'ensemble_clv']].head())
+```
+
+#### 16.2 Customer Segmentation Advanced Models
+**Advanced Segmentation** using multiple algorithms:
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
+from sklearn.mixture import GaussianMixture
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+class AdvancedCustomerSegmentation:
+    """
+    Advanced Customer Segmentation using multiple clustering algorithms
+    
+    Implements K-Means, DBSCAN, Gaussian Mixture Models, and Hierarchical Clustering
+    """
+    
+    def __init__(self):
+        """Initialize segmentation models"""
+        self.models = {}
+        self.scaler = StandardScaler()
+        self.pca = None
+        self.segments = {}
+    
+    def prepare_features(self, customer_data, features):
+        """
+        Prepare features for clustering
+        
+        Args:
+            customer_data: DataFrame with customer data
+            features: List of feature column names
+            
+        Returns:
+            Scaled feature matrix
+        """
+        # Select features
+        X = customer_data[features].fillna(0)
+        
+        # Scale features
+        X_scaled = self.scaler.fit_transform(X)
+        
+        return X_scaled
+    
+    def kmeans_segmentation(self, X, n_clusters=5, random_state=42):
+        """
+        Perform K-Means clustering
+        
+        Args:
+            X: Feature matrix
+            n_clusters: Number of clusters
+            random_state: Random state for reproducibility
+            
+        Returns:
+            Cluster labels
+        """
+        kmeans = KMeans(n_clusters=n_clusters, random_state=random_state, n_init=10)
+        labels = kmeans.fit_predict(X)
+        
+        self.models['kmeans'] = kmeans
+        return labels
+    
+    def dbscan_segmentation(self, X, eps=0.5, min_samples=5):
+        """
+        Perform DBSCAN clustering
+        
+        Args:
+            X: Feature matrix
+            eps: Maximum distance between samples
+            min_samples: Minimum samples in a neighborhood
+            
+        Returns:
+            Cluster labels
+        """
+        dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+        labels = dbscan.fit_predict(X)
+        
+        self.models['dbscan'] = dbscan
+        return labels
+    
+    def gmm_segmentation(self, X, n_components=5, random_state=42):
+        """
+        Perform Gaussian Mixture Model clustering
+        
+        Args:
+            X: Feature matrix
+            n_components: Number of mixture components
+            random_state: Random state for reproducibility
+            
+        Returns:
+            Cluster labels
+        """
+        gmm = GaussianMixture(n_components=n_components, random_state=random_state)
+        labels = gmm.fit_predict(X)
+        
+        self.models['gmm'] = gmm
+        return labels
+    
+    def hierarchical_segmentation(self, X, n_clusters=5):
+        """
+        Perform Hierarchical clustering
+        
+        Args:
+            X: Feature matrix
+            n_clusters: Number of clusters
+            
+        Returns:
+            Cluster labels
+        """
+        hierarchical = AgglomerativeClustering(n_clusters=n_clusters)
+        labels = hierarchical.fit_predict(X)
+        
+        self.models['hierarchical'] = hierarchical
+        return labels
+    
+    def find_optimal_clusters(self, X, max_clusters=10):
+        """
+        Find optimal number of clusters using Elbow method and Silhouette analysis
+        
+        Args:
+            X: Feature matrix
+            max_clusters: Maximum number of clusters to test
+            
+        Returns:
+            Optimal number of clusters
+        """
+        from sklearn.metrics import silhouette_score
+        
+        # Elbow method
+        inertias = []
+        silhouette_scores = []
+        K_range = range(2, max_clusters + 1)
+        
+        for k in K_range:
+            kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+            kmeans.fit(X)
+            inertias.append(kmeans.inertia_)
+            silhouette_scores.append(silhouette_score(X, kmeans.labels_))
+        
+        # Find optimal K (elbow point)
+        # Calculate second derivative to find elbow
+        second_derivative = np.diff(inertias, 2)
+        optimal_k_elbow = K_range[np.argmax(second_derivative) + 2]
+        
+        # Find optimal K (silhouette)
+        optimal_k_silhouette = K_range[np.argmax(silhouette_scores)]
+        
+        return optimal_k_elbow, optimal_k_silhouette
+    
+    def analyze_segments(self, customer_data, labels, features):
+        """
+        Analyze customer segments
+        
+        Args:
+            customer_data: Original customer data
+            labels: Cluster labels
+            features: Feature column names
+            
+        Returns:
+            Segment analysis results
+        """
+        # Add cluster labels to data
+        customer_data['segment'] = labels
+        
+        # Calculate segment statistics
+        segment_stats = customer_data.groupby('segment')[features].agg(['mean', 'std', 'count'])
+        
+        # Calculate segment sizes
+        segment_sizes = customer_data['segment'].value_counts().sort_index()
+        
+        # Calculate segment percentages
+        segment_percentages = (segment_sizes / len(customer_data) * 100).round(2)
+        
+        # Create segment profiles
+        segment_profiles = {}
+        for segment in sorted(customer_data['segment'].unique()):
+            segment_data = customer_data[customer_data['segment'] == segment]
+            profile = {
+                'size': len(segment_data),
+                'percentage': segment_percentages[segment],
+                'characteristics': segment_data[features].mean().to_dict()
+            }
+            segment_profiles[segment] = profile
+        
+        return {
+            'segment_stats': segment_stats,
+            'segment_sizes': segment_sizes,
+            'segment_percentages': segment_percentages,
+            'segment_profiles': segment_profiles
+        }
+    
+    def visualize_segments(self, customer_data, labels, features):
+        """
+        Visualize customer segments
+        
+        Args:
+            customer_data: Customer data
+            labels: Cluster labels
+            features: Feature column names
+        """
+        # Prepare data for visualization
+        X = customer_data[features].fillna(0)
+        X_scaled = self.scaler.fit_transform(X)
+        
+        # Apply PCA for 2D visualization
+        self.pca = PCA(n_components=2)
+        X_pca = self.pca.fit_transform(X_scaled)
+        
+        # Create visualization
+        plt.figure(figsize=(15, 5))
+        
+        # Plot 1: PCA scatter plot
+        plt.subplot(1, 3, 1)
+        scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=labels, cmap='viridis', alpha=0.6)
+        plt.xlabel('First Principal Component')
+        plt.ylabel('Second Principal Component')
+        plt.title('Customer Segments (PCA)')
+        plt.colorbar(scatter)
+        
+        # Plot 2: Segment sizes
+        plt.subplot(1, 3, 2)
+        segment_sizes = pd.Series(labels).value_counts().sort_index()
+        plt.bar(segment_sizes.index, segment_sizes.values)
+        plt.xlabel('Segment')
+        plt.ylabel('Number of Customers')
+        plt.title('Segment Sizes')
+        
+        # Plot 3: Feature importance heatmap
+        plt.subplot(1, 3, 3)
+        segment_means = customer_data.groupby('segment')[features].mean()
+        sns.heatmap(segment_means.T, annot=True, cmap='YlOrRd', fmt='.2f')
+        plt.title('Segment Characteristics')
+        plt.xlabel('Segment')
+        plt.ylabel('Features')
+        
+        plt.tight_layout()
+        plt.show()
+
+# Usage Example
+segmentation = AdvancedCustomerSegmentation()
+
+# Sample customer data
+customer_data = pd.DataFrame({
+    'customer_id': range(1, 1001),
+    'recency': np.random.uniform(0, 365, 1000),
+    'frequency': np.random.poisson(5, 1000),
+    'monetary': np.random.uniform(50, 1000, 1000),
+    'age': np.random.uniform(18, 80, 1000),
+    'income': np.random.uniform(30000, 150000, 1000)
+})
+
+# Prepare features
+features = ['recency', 'frequency', 'monetary', 'age', 'income']
+X_scaled = segmentation.prepare_features(customer_data, features)
+
+# Find optimal number of clusters
+optimal_k_elbow, optimal_k_silhouette = segmentation.find_optimal_clusters(X_scaled)
+print(f"Optimal clusters (Elbow): {optimal_k_elbow}")
+print(f"Optimal clusters (Silhouette): {optimal_k_silhouette}")
+
+# Perform segmentation
+labels = segmentation.kmeans_segmentation(X_scaled, n_clusters=optimal_k_silhouette)
+
+# Analyze segments
+analysis = segmentation.analyze_segments(customer_data, labels, features)
+print("Segment Analysis:")
+for segment, profile in analysis['segment_profiles'].items():
+    print(f"Segment {segment}: {profile['size']} customers ({profile['percentage']}%)")
+
+# Visualize segments
+segmentation.visualize_segments(customer_data, labels, features)
+```
+
+### 17. Advanced Data Processing Theory
+
+#### 17.1 Real-time Data Quality Monitoring
+**Real-time Data Quality** monitoring and alerting:
+
+```python
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+import json
+from typing import Dict, List, Any
+import asyncio
+import aiohttp
+
+class RealTimeDataQualityMonitor:
+    """
+    Real-time Data Quality Monitoring System
+    
+    Monitors data quality metrics in real-time and triggers alerts
+    """
+    
+    def __init__(self, quality_thresholds: Dict[str, float]):
+        """
+        Initialize data quality monitor
+        
+        Args:
+            quality_thresholds: Dictionary of quality thresholds for different metrics
+        """
+        self.quality_thresholds = quality_thresholds
+        self.quality_metrics = {}
+        self.alert_history = []
+        self.data_sources = {}
+    
+    def register_data_source(self, source_id: str, schema: Dict[str, Any]):
+        """
+        Register a data source for monitoring
+        
+        Args:
+            source_id: Unique identifier for data source
+            schema: Expected schema for the data source
+        """
+        self.data_sources[source_id] = {
+            'schema': schema,
+            'quality_metrics': {},
+            'last_check': None,
+            'status': 'unknown'
+        }
+    
+    def calculate_completeness(self, data: pd.DataFrame, required_fields: List[str]) -> float:
+        """
+        Calculate data completeness score
+        
+        Args:
+            data: DataFrame to analyze
+            required_fields: List of required field names
+            
+        Returns:
+            Completeness score (0-1)
+        """
+        if data.empty:
+            return 0.0
+        
+        total_records = len(data)
+        complete_records = 0
+        
+        for _, row in data.iterrows():
+            is_complete = all(
+                pd.notna(row[field]) and str(row[field]).strip() != '' 
+                for field in required_fields
+            )
+            if is_complete:
+                complete_records += 1
+        
+        return complete_records / total_records if total_records > 0 else 0.0
+    
+    def calculate_accuracy(self, data: pd.DataFrame, validation_rules: Dict[str, Any]) -> float:
+        """
+        Calculate data accuracy score
+        
+        Args:
+            data: DataFrame to analyze
+            validation_rules: Dictionary of validation rules for each field
+            
+        Returns:
+            Accuracy score (0-1)
+        """
+        if data.empty:
+            return 0.0
+        
+        total_validations = 0
+        passed_validations = 0
+        
+        for field, rules in validation_rules.items():
+            if field not in data.columns:
+                continue
+            
+            for _, row in data.iterrows():
+                value = row[field]
+                total_validations += 1
+                
+                # Check if value passes all validation rules
+                is_valid = True
+                for rule_type, rule_value in rules.items():
+                    if rule_type == 'min_length' and len(str(value)) < rule_value:
+                        is_valid = False
+                        break
+                    elif rule_type == 'max_length' and len(str(value)) > rule_value:
+                        is_valid = False
+                        break
+                    elif rule_type == 'pattern' and not re.match(rule_value, str(value)):
+                        is_valid = False
+                        break
+                    elif rule_type == 'min_value' and value < rule_value:
+                        is_valid = False
+                        break
+                    elif rule_type == 'max_value' and value > rule_value:
+                        is_valid = False
+                        break
+                
+                if is_valid:
+                    passed_validations += 1
+        
+        return passed_validations / total_validations if total_validations > 0 else 0.0
+    
+    def calculate_consistency(self, data: pd.DataFrame, consistency_rules: List[Dict[str, Any]]) -> float:
+        """
+        Calculate data consistency score
+        
+        Args:
+            data: DataFrame to analyze
+            consistency_rules: List of consistency rules
+            
+        Returns:
+            Consistency score (0-1)
+        """
+        if data.empty:
+            return 0.0
+        
+        total_checks = 0
+        passed_checks = 0
+        
+        for rule in consistency_rules:
+            field1 = rule['field1']
+            field2 = rule['field2']
+            operator = rule['operator']
+            
+            if field1 not in data.columns or field2 not in data.columns:
+                continue
+            
+            for _, row in data.iterrows():
+                value1 = row[field1]
+                value2 = row[field2]
+                total_checks += 1
+                
+                # Check consistency rule
+                is_consistent = False
+                if operator == 'equals' and value1 == value2:
+                    is_consistent = True
+                elif operator == 'greater_than' and value1 > value2:
+                    is_consistent = True
+                elif operator == 'less_than' and value1 < value2:
+                    is_consistent = True
+                elif operator == 'sum_equals' and value1 + value2 == rule.get('expected_sum', 0):
+                    is_consistent = True
+                
+                if is_consistent:
+                    passed_checks += 1
+        
+        return passed_checks / total_checks if total_checks > 0 else 0.0
+    
+    def calculate_timeliness(self, data: pd.DataFrame, timestamp_field: str, 
+                           expected_delay_minutes: int = 5) -> float:
+        """
+        Calculate data timeliness score
+        
+        Args:
+            data: DataFrame to analyze
+            timestamp_field: Name of timestamp field
+            expected_delay_minutes: Expected delay in minutes
+            
+        Returns:
+            Timeliness score (0-1)
+        """
+        if data.empty or timestamp_field not in data.columns:
+            return 0.0
+        
+        current_time = datetime.utcnow()
+        timely_records = 0
+        total_records = len(data)
+        
+        for _, row in data.iterrows():
+            timestamp = pd.to_datetime(row[timestamp_field])
+            delay_minutes = (current_time - timestamp).total_seconds() / 60
+            
+            if delay_minutes <= expected_delay_minutes:
+                timely_records += 1
+        
+        return timely_records / total_records if total_records > 0 else 0.0
+    
+    async def monitor_data_source(self, source_id: str, data: pd.DataFrame):
+        """
+        Monitor data quality for a specific source
+        
+        Args:
+            source_id: Data source identifier
+            data: Data to monitor
+        """
+        if source_id not in self.data_sources:
+            raise ValueError(f"Data source {source_id} not registered")
+        
+        source_config = self.data_sources[source_id]
+        schema = source_config['schema']
+        
+        # Calculate quality metrics
+        completeness = self.calculate_completeness(
+            data, schema.get('required_fields', [])
+        )
+        
+        accuracy = self.calculate_accuracy(
+            data, schema.get('validation_rules', {})
+        )
+        
+        consistency = self.calculate_consistency(
+            data, schema.get('consistency_rules', [])
+        )
+        
+        timeliness = self.calculate_timeliness(
+            data, schema.get('timestamp_field', 'timestamp')
+        )
+        
+        # Calculate overall quality score
+        overall_quality = (completeness + accuracy + consistency + timeliness) / 4
+        
+        # Update source metrics
+        source_config['quality_metrics'] = {
+            'completeness': completeness,
+            'accuracy': accuracy,
+            'consistency': consistency,
+            'timeliness': timeliness,
+            'overall': overall_quality,
+            'timestamp': datetime.utcnow()
+        }
+        
+        source_config['last_check'] = datetime.utcnow()
+        
+        # Check for quality issues
+        quality_issues = []
+        for metric, value in source_config['quality_metrics'].items():
+            if metric in self.quality_thresholds:
+                threshold = self.quality_thresholds[metric]
+                if value < threshold:
+                    quality_issues.append({
+                        'metric': metric,
+                        'value': value,
+                        'threshold': threshold,
+                        'severity': 'high' if value < threshold * 0.5 else 'medium'
+                    })
+        
+        # Update source status
+        if quality_issues:
+            source_config['status'] = 'degraded'
+            await self._send_quality_alert(source_id, quality_issues)
+        else:
+            source_config['status'] = 'healthy'
+    
+    async def _send_quality_alert(self, source_id: str, quality_issues: List[Dict]):
+        """
+        Send quality alert
+        
+        Args:
+            source_id: Data source identifier
+            quality_issues: List of quality issues
+        """
+        alert = {
+            'source_id': source_id,
+            'timestamp': datetime.utcnow(),
+            'issues': quality_issues,
+            'severity': max(issue['severity'] for issue in quality_issues)
+        }
+        
+        self.alert_history.append(alert)
+        
+        # Send alert to monitoring system
+        print(f"Quality Alert for {source_id}: {len(quality_issues)} issues detected")
+        for issue in quality_issues:
+            print(f"  - {issue['metric']}: {issue['value']:.2f} < {issue['threshold']:.2f} ({issue['severity']})")
+    
+    def get_quality_dashboard(self) -> Dict[str, Any]:
+        """
+        Get quality dashboard data
+        
+        Returns:
+            Dictionary with quality dashboard information
+        """
+        dashboard = {
+            'sources': {},
+            'overall_health': 'healthy',
+            'total_alerts': len(self.alert_history),
+            'recent_alerts': self.alert_history[-10:] if self.alert_history else []
+        }
+        
+        for source_id, config in self.data_sources.items():
+            dashboard['sources'][source_id] = {
+                'status': config['status'],
+                'last_check': config['last_check'],
+                'quality_metrics': config['quality_metrics']
+            }
+        
+        # Calculate overall health
+        unhealthy_sources = sum(1 for config in self.data_sources.values() 
+                              if config['status'] == 'degraded')
+        if unhealthy_sources > 0:
+            dashboard['overall_health'] = 'degraded'
+        
+        return dashboard
+
+# Usage Example
+quality_thresholds = {
+    'completeness': 0.95,
+    'accuracy': 0.90,
+    'consistency': 0.85,
+    'timeliness': 0.80
+}
+
+monitor = RealTimeDataQualityMonitor(quality_thresholds)
+
+# Register data source
+customer_schema = {
+    'required_fields': ['customer_id', 'email', 'name'],
+    'validation_rules': {
+        'email': {'pattern': r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'},
+        'age': {'min_value': 0, 'max_value': 120}
+    },
+    'consistency_rules': [
+        {'field1': 'age', 'field2': 'birth_year', 'operator': 'sum_equals', 'expected_sum': 2024}
+    ],
+    'timestamp_field': 'created_at'
+}
+
+monitor.register_data_source('customer_data', customer_schema)
+
+# Sample data
+sample_data = pd.DataFrame({
+    'customer_id': range(1, 101),
+    'email': [f'customer{i}@example.com' for i in range(1, 101)],
+    'name': [f'Customer {i}' for i in range(1, 101)],
+    'age': np.random.randint(18, 80, 100),
+    'birth_year': 2024 - np.random.randint(18, 80, 100),
+    'created_at': [datetime.utcnow() - timedelta(minutes=np.random.randint(0, 10)) for _ in range(100)]
+})
+
+# Monitor data quality
+asyncio.run(monitor.monitor_data_source('customer_data', sample_data))
+
+# Get dashboard
+dashboard = monitor.get_quality_dashboard()
+print("Quality Dashboard:")
+print(json.dumps(dashboard, indent=2, default=str))
+```
+
 ---
 
 ## Architecture Overview
