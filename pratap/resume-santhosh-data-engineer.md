@@ -10,19 +10,19 @@ Data Engineer with 3+ years of experience in designing and implementing scalable
 
 ## Technical Skills
 
-**Big Data Technologies:** Apache Spark, PySpark, Kafka, Airflow, Hadoop, Hive
+**Big Data Technologies:** Apache Spark, PySpark, Azure Event Hubs, Azure Data Factory, Azure HDInsight, Azure Stream Analytics
 
-**Cloud Platforms:** AWS (S3, Glue, EMR, Redshift), Azure (Data Factory, Databricks), GCP (BigQuery, Dataflow)
+**Cloud Platforms:** Azure Data Factory, Azure Databricks, Azure Synapse Analytics, Azure Data Lake (Gen2), Azure SQL Database
 
-**Databases:** PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch
+**Databases:** Azure SQL Database, Azure Cosmos DB, Azure Database for PostgreSQL, Azure Database for MySQL, Azure Cache for Redis
 
 **Programming:** Python, SQL, Java, Scala
 
 **Data Processing:** ETL/ELT, Data Streaming, Batch Processing, Real-time Analytics
 
-**Tools & Frameworks:** Docker, Kubernetes, Git, Jenkins, Terraform
+**Tools & Frameworks:** Docker, Azure Container Instances, Azure Kubernetes Service, Git, Azure DevOps, Azure Resource Manager
 
-**Visualization:** Grafana, Kibana, Apache Superset
+**Visualization:** Power BI, Azure Analysis Services, Azure Monitor
 
 ## Professional Experience
 
@@ -42,7 +42,7 @@ Data Engineer with 3+ years of experience in designing and implementing scalable
 📅 Jun 2020 – Feb 2022
 
 - Built ETL pipelines using Python and Apache Airflow for processing e-commerce transaction data.
-- Implemented data lake architecture on AWS S3 with automated data partitioning and compression.
+- Implemented data lake architecture on Azure Data Lake Gen2 with automated data partitioning and compression.
 - Created data models and views for business intelligence and reporting requirements.
 - Optimized SQL queries and Spark jobs resulting in 50% performance improvement.
 
@@ -71,7 +71,7 @@ Data Engineer with 3+ years of experience in designing and implementing scalable
 
 ### Supply Chain Data Integration Hub
 - **Description:** Created a centralized data integration platform that consolidates information from multiple supplier systems, logistics partners, and internal databases. The system provides real-time visibility into supply chain operations and enables data-driven decision making for procurement and inventory management.
-- **Technology Stack:** AWS Glue, Redshift, Lambda, S3
+- **Technology Stack:** Azure Data Factory, Azure Synapse Analytics, Azure Functions, Azure Data Lake Gen2
 - **Key Achievements:**
   - Automated data ingestion from various file formats (CSV, JSON, XML)
   - Implemented data quality checks and anomaly detection

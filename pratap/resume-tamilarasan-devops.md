@@ -6,25 +6,25 @@
 
 ## Professional Summary
 
-DevOps Engineer with 3+ years of experience in designing, implementing, and maintaining cloud infrastructure and CI/CD pipelines. Expertise in containerization, orchestration, and infrastructure as code. Proficient in AWS, Azure, and Kubernetes with strong focus on automation, monitoring, and security in retail and e-commerce environments.
+DevOps Engineer with 3+ years of experience in designing, implementing, and maintaining Azure cloud infrastructure and CI/CD pipelines. Expertise in containerization, orchestration, and infrastructure as code. Proficient in Azure services and Kubernetes with strong focus on automation, monitoring, and security in retail and e-commerce environments.
 
 ## Technical Skills
 
-**Cloud Platforms:** AWS (EC2, EKS, Lambda, CloudFormation), Azure (AKS, Functions, ARM), GCP (GKE, Cloud Functions)
+**Cloud Platforms:** Azure (AKS, Functions, ARM Templates, App Service, Container Instances)
 
-**Containerization & Orchestration:** Docker, Kubernetes, Helm, Istio
+**Containerization & Orchestration:** Docker, Azure Kubernetes Service, Helm, Istio, Azure Container Instances
 
-**Infrastructure as Code:** Terraform, Ansible, CloudFormation, ARM Templates
+**Infrastructure as Code:** Azure Resource Manager (ARM), Terraform, Ansible, Azure CLI
 
-**CI/CD & Version Control:** Jenkins, GitLab CI, Azure DevOps, GitHub Actions, Git
+**CI/CD & Version Control:** Azure DevOps, GitHub Actions, Git, Azure Repos
 
-**Monitoring & Logging:** Prometheus, Grafana, ELK Stack, CloudWatch, Application Insights
+**Monitoring & Logging:** Azure Monitor, Application Insights, Log Analytics, Azure Security Center
 
-**Scripting & Automation:** Python, Bash, PowerShell, YAML
+**Scripting & Automation:** Python, Bash, PowerShell, YAML, Azure CLI
 
-**Databases:** PostgreSQL, MySQL, MongoDB, Redis
+**Databases:** Azure SQL Database, Azure Cosmos DB, Azure Database for PostgreSQL, Azure Cache for Redis
 
-**Security:** Vault, IAM, RBAC, SSL/TLS, Security Scanning
+**Security:** Azure Key Vault, Azure Active Directory, RBAC, SSL/TLS, Azure Security Center
 
 ## Professional Experience
 
@@ -32,8 +32,8 @@ DevOps Engineer with 3+ years of experience in designing, implementing, and main
 **[Company Name] – [Location]**
 📅 Feb 2022 – Present
 
-- Designed and implemented multi-cloud infrastructure supporting 50+ microservices for retail e-commerce platform.
-- Built and maintained Kubernetes clusters on AWS EKS and Azure AKS handling 10M+ daily transactions.
+- Designed and implemented Azure cloud infrastructure supporting 50+ microservices for retail e-commerce platform.
+- Built and maintained Kubernetes clusters on Azure AKS handling 10M+ daily transactions.
 - Implemented comprehensive CI/CD pipelines reducing deployment time from 2 hours to 15 minutes.
 - Established monitoring and alerting systems using Prometheus and Grafana with 99.9% uptime.
 - Automated infrastructure provisioning using Terraform and Ansible across multiple environments.
@@ -43,7 +43,7 @@ DevOps Engineer with 3+ years of experience in designing, implementing, and main
 **[Previous Company Name] – [Location]**
 📅 Jul 2020 – Jan 2022
 
-- Managed AWS infrastructure for retail applications including auto-scaling groups and load balancers.
+- Managed Azure infrastructure for retail applications including auto-scaling groups and load balancers.
 - Implemented Docker containerization for legacy applications improving deployment consistency.
 - Built monitoring dashboards and alerting systems for application performance and infrastructure health.
 - Collaborated with development teams to establish DevOps best practices and automation workflows.
@@ -57,7 +57,7 @@ DevOps Engineer with 3+ years of experience in designing, implementing, and main
 
 ### E-commerce Platform Infrastructure
 - **Description:** Designed and implemented a highly scalable cloud infrastructure for a major retail e-commerce platform serving millions of customers. The infrastructure handles massive traffic spikes during peak shopping seasons and ensures seamless shopping experience across all devices and channels.
-- **Technology Stack:** AWS EKS, Terraform, Jenkins, Prometheus, Grafana
+- **Technology Stack:** Azure AKS, Azure Resource Manager, Azure DevOps, Azure Monitor, Application Insights
 - **Key Achievements:**
   - Handled Black Friday traffic spikes (10x normal load)
   - Achieved 99.99% uptime during peak shopping seasons
@@ -81,7 +81,7 @@ DevOps Engineer with 3+ years of experience in designing, implementing, and main
 
 ### Retail Analytics Cloud Migration
 - **Description:** Led the complete migration of a legacy on-premises retail analytics platform to cloud infrastructure without any business disruption. The migration involved modernizing the entire data processing pipeline and implementing cloud-native monitoring and security solutions.
-- **Technology Stack:** AWS, Terraform, Ansible, Jenkins
+- **Technology Stack:** Azure, Azure Resource Manager, Ansible, Azure DevOps
 - **Key Achievements:**
   - Migrated 200+ servers to cloud infrastructure
   - Implemented blue-green deployment strategy
@@ -97,7 +97,7 @@ DevOps Engineer with 3+ years of experience in designing, implementing, and main
 
 ### Customer Data Platform Infrastructure
 - **Description:** Built secure and compliant infrastructure for a customer data platform that processes and stores personal information for over 1 million customers. The platform ensures data privacy compliance while enabling advanced analytics and personalization capabilities.
-- **Technology Stack:** GCP, Kubernetes, Terraform, Prometheus
+- **Technology Stack:** Azure, Azure Kubernetes Service, Azure Resource Manager, Azure Monitor
 - **Key Achievements:**
   - Implemented data privacy compliance (GDPR, CCPA)
   - Built automated data pipeline monitoring

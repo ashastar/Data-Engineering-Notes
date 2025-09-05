@@ -10,21 +10,21 @@ Azure Data Engineer with 3+ years of experience in building and optimizing data 
 
 ## Technical Skills
 
-**Cloud & Data Platforms:** Azure Data Factory, Azure Databricks, Azure Synapse Analytics, Azure Data Lake (Gen2), Snowflake
+**Cloud & Data Platforms:** Azure Data Factory, Azure Databricks, Azure Synapse Analytics, Azure Data Lake (Gen2), Azure SQL Database
 
-**Big Data & Processing:** PySpark, Apache Spark, Delta Lake, Hadoop, Hive
+**Big Data & Processing:** PySpark, Apache Spark, Delta Lake, Azure HDInsight, Azure Stream Analytics
 
-**Databases & Warehousing:** SQL Server, PostgreSQL, MySQL, Azure SQL DB
+**Databases & Warehousing:** Azure SQL Database, Azure Cosmos DB, Azure Database for PostgreSQL, Azure Database for MySQL
 
 **Programming & Scripting:** Python, SQL, Scala (basic)
 
 **Data Modeling & ETL:** Star/Snowflake Schema, Slowly Changing Dimensions, Medallion Architecture
 
-**Visualization:** Power BI, Tableau
+**Visualization:** Power BI, Azure Analysis Services
 
-**Version Control & CI/CD:** Git, GitHub, Jenkins, Azure DevOps
+**Version Control & CI/CD:** Git, GitHub, Azure DevOps, Azure Repos
 
-**Other Tools:** Docker, Kubernetes
+**Other Tools:** Docker, Azure Container Instances, Azure Kubernetes Service
 
 ## Professional Experience
 

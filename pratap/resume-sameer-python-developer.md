@@ -18,7 +18,7 @@ Python Developer with 3+ years of experience in building scalable web applicatio
 
 **Web Technologies:** REST APIs, GraphQL, WebSockets, JWT Authentication
 
-**Cloud & Deployment:** AWS, Docker, Kubernetes, Heroku, Vercel
+**Cloud & Deployment:** Azure, Docker, Azure Kubernetes Service, Azure App Service, Azure Container Instances
 
 **Testing & Quality:** Pytest, Unit Testing, Code Coverage, Black, Flake8
 
@@ -83,7 +83,7 @@ Python Developer with 3+ years of experience in building scalable web applicatio
 
 ### Customer Loyalty Program Platform
 - **Description:** Created a sophisticated customer loyalty and rewards platform that manages points accumulation, tier-based benefits, personalized offers, and comprehensive analytics. The system integrates with multiple retail channels and provides a unified loyalty experience across all touchpoints.
-- **Technology Stack:** Django, MongoDB, Celery, Redis, AWS
+- **Technology Stack:** Django, Azure Cosmos DB, Celery, Azure Cache for Redis, Azure App Service
 - **Key Features:**
   - Points accumulation and redemption
   - Tier-based benefits system

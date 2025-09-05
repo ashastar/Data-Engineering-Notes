@@ -16,11 +16,11 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
 
 **Data Analysis:** Pandas, NumPy, SciPy, Matplotlib, Seaborn, Plotly
 
-**Big Data:** Apache Spark, PySpark, Hadoop, Hive
+**Big Data:** Apache Spark, PySpark, Azure HDInsight, Azure Databricks
 
-**Cloud Platforms:** AWS (SageMaker, S3, Redshift), Azure (ML Studio, Databricks), GCP (BigQuery, Vertex AI)
+**Cloud Platforms:** Azure (Machine Learning Studio, Databricks, Synapse Analytics, Data Lake)
 
-**Databases:** PostgreSQL, MySQL, MongoDB, Redis
+**Databases:** Azure SQL Database, Azure Cosmos DB, Azure Database for PostgreSQL, Azure Cache for Redis
 
 **Visualization:** Tableau, Power BI, D3.js, Streamlit
 
@@ -57,7 +57,7 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
 
 ### Dynamic Pricing Optimization System
 - **Description:** Developed an advanced machine learning-powered dynamic pricing system that automatically adjusts product prices in real-time based on demand patterns, competitor pricing, inventory levels, and market conditions. The system maximizes revenue while maintaining competitive positioning in the market.
-- **Technology Stack:** Python, XGBoost, TensorFlow, PostgreSQL, Redis
+- **Technology Stack:** Python, XGBoost, TensorFlow, Azure SQL Database, Azure Cache for Redis
 - **Key Features:**
   - Real-time price optimization based on demand, competition, and inventory
   - Competitor price monitoring and analysis
@@ -70,7 +70,7 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
 
 ### Customer Lifetime Value Prediction Model
 - **Description:** Built a comprehensive customer lifetime value prediction model that analyzes customer behavior patterns, purchase history, and engagement metrics to predict future customer value. The model enables targeted marketing campaigns and personalized customer experiences to maximize long-term revenue.
-- **Technology Stack:** Python, Scikit-learn, Pandas, PostgreSQL, Tableau
+- **Technology Stack:** Python, Scikit-learn, Pandas, Azure SQL Database, Power BI
 - **Key Features:**
   - RFM analysis and customer segmentation
   - Survival analysis for customer retention
@@ -122,7 +122,7 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
 
 ### Store Performance Analytics Platform
 - **Description:** Created a comprehensive analytics platform that analyzes retail store performance across multiple dimensions including sales, foot traffic, product placement, and staff efficiency. The platform provides actionable insights to optimize store operations and improve overall performance.
-- **Technology Stack:** Python, Pandas, Plotly, Streamlit, PostgreSQL
+- **Technology Stack:** Python, Pandas, Plotly, Streamlit, Azure SQL Database
 - **Key Features:**
   - Store performance benchmarking
   - Foot traffic analysis and optimization
@@ -135,7 +135,7 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
 
 ### Fraud Detection System
 - **Description:** Developed a real-time fraud detection system that identifies suspicious transactions and fraudulent activities in retail operations. The system uses advanced anomaly detection algorithms and machine learning models to detect fraud patterns and prevent financial losses.
-- **Technology Stack:** Python, Isolation Forest, LSTM, PostgreSQL, Kafka
+- **Technology Stack:** Python, Isolation Forest, LSTM, Azure SQL Database, Azure Event Hubs
 - **Key Features:**
   - Anomaly detection algorithms
   - Real-time transaction scoring
