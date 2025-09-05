@@ -61,7 +61,21 @@ Azure Data Engineer with 3+ years of experience in building and optimizing data 
 - **Key Achievements:** Built real-time ingestion pipelines using ADF + Event Hub + Databricks for processing retail sales transactions.
 - **Impact:** Designed Synapse Analytics models for reporting sales KPIs, resulting in 40% faster reporting and 99.9% data accuracy.
 
+**Responsibilities:**
+- **Data Pipeline Architecture:** Designed and implemented end-to-end real-time data processing architecture using Azure Data Factory, Event Hubs, and Databricks. Created scalable data ingestion pipelines that handle 10M+ daily transactions with sub-second latency requirements.
+- **Data Transformation & Enrichment:** Developed complex PySpark transformations in Azure Databricks to cleanse, validate, and enrich sales data from multiple sources. Implemented data quality checks and business rule validations to ensure 99.9% data accuracy across all channels.
+- **Real-time Analytics & Monitoring:** Built real-time dashboards and alerting systems using Power BI and Azure Monitor to track sales performance, inventory levels, and system health. Created automated alerts for anomalies and performance degradation to ensure continuous business operations.
+- **Data Lake Management:** Implemented Azure Data Lake Gen2 storage with proper partitioning, compression, and lifecycle management strategies. Designed Delta Lake tables for ACID transactions and time travel capabilities to support historical analysis and data recovery.
+- **Performance Optimization:** Optimized PySpark jobs and SQL queries to improve processing performance by 60% and reduce costs by 35%. Implemented caching strategies, query optimization, and resource scaling to handle peak load scenarios during Black Friday and holiday seasons.
+
 ### Customer 360 Data Lake
 - **Description:** Developed unified customer data platform that consolidates customer information from multiple sources including CRM, ERP, marketing automation, and loyalty programs. The system provides a single source of truth for customer data across all business functions.
 - **Key Achievements:** Unified customer data from CRM, ERP, and marketing systems into Azure Data Lake.
 - **Impact:** Implemented PySpark transformations in Databricks to create a 360° customer profile, enabling personalized marketing campaigns that increased customer engagement by 35%.
+
+**Responsibilities:**
+- **Data Integration & ETL:** Designed and implemented comprehensive ETL pipelines using Azure Data Factory to integrate customer data from 15+ source systems including Salesforce, SAP, and marketing platforms. Created automated data validation and reconciliation processes to ensure data consistency and quality across all integrated systems.
+- **Customer Data Modeling:** Developed dimensional data models and customer master data management (MDM) solutions using Azure Synapse Analytics. Implemented customer identity resolution algorithms to create unified customer profiles and eliminate duplicate records across different touchpoints.
+- **Advanced Analytics & ML:** Built machine learning pipelines in Azure Databricks for customer segmentation, lifetime value prediction, and churn analysis. Implemented real-time scoring models and recommendation engines to enable personalized customer experiences and targeted marketing campaigns.
+- **Data Governance & Security:** Established data governance frameworks and implemented role-based access controls using Azure Active Directory and Azure Key Vault. Created data lineage tracking and audit trails to ensure compliance with GDPR and other data privacy regulations.
+- **Performance & Scalability:** Optimized data processing workflows to handle 50M+ customer records with sub-minute refresh rates. Implemented data partitioning strategies, indexing, and caching mechanisms to improve query performance by 70% and reduce operational costs by 40%.

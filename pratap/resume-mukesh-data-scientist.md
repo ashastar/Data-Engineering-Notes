@@ -68,6 +68,13 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
   - Processed 1M+ price updates daily
   - Achieved 95% accuracy in demand prediction
 
+**Responsibilities:**
+- **Machine Learning Model Development:** Developed and implemented advanced machine learning models using Python, XGBoost, and TensorFlow for dynamic pricing optimization. Created ensemble models combining demand forecasting, price elasticity analysis, and competitive intelligence to achieve 95% accuracy in demand prediction and 18% revenue increase.
+- **Data Processing & Feature Engineering:** Built comprehensive data processing pipelines using Python and Azure SQL Database to analyze historical sales data, competitor pricing, and market trends. Implemented advanced feature engineering techniques including time series analysis, seasonal decomposition, and market sentiment analysis for optimal model performance.
+- **Real-time Analytics & Optimization:** Implemented real-time pricing optimization algorithms using Azure Cache for Redis and Azure Functions to process 1M+ price updates daily. Created automated decision-making systems and A/B testing frameworks to continuously optimize pricing strategies and maximize revenue potential.
+- **Competitive Intelligence & Monitoring:** Developed automated competitor price monitoring systems using web scraping and API integrations to track pricing trends and market dynamics. Created real-time alerting and notification systems to identify pricing opportunities and competitive threats in the market.
+- **Performance Monitoring & Optimization:** Built comprehensive monitoring and analytics systems using Azure Application Insights and custom metrics to track model performance and business impact. Implemented automated model retraining, drift detection, and performance optimization strategies to ensure continuous improvement and optimal results.
+
 ### Customer Lifetime Value Prediction Model
 - **Description:** Built a comprehensive customer lifetime value prediction model that analyzes customer behavior patterns, purchase history, and engagement metrics to predict future customer value. The model enables targeted marketing campaigns and personalized customer experiences to maximize long-term revenue.
 - **Technology Stack:** Python, Scikit-learn, Pandas, Azure SQL Database, Power BI
@@ -80,6 +87,13 @@ Data Scientist with 3+ years of experience in machine learning, statistical anal
   - Improved customer acquisition ROI by 45%
   - Identified high-value customer segments
   - Reduced customer acquisition costs by 30%
+
+**Responsibilities:**
+- **Machine Learning Model Development:** Developed and implemented comprehensive customer lifetime value prediction models using Python, Scikit-learn, and Pandas. Created ensemble models combining RFM analysis, survival analysis, and propensity scoring to identify high-value customer segments and improve customer acquisition ROI by 45%.
+- **Data Processing & Feature Engineering:** Built comprehensive data processing pipelines using Python and Azure SQL Database to analyze customer behavior patterns, purchase history, and engagement metrics. Implemented advanced feature engineering techniques including customer segmentation, behavioral analysis, and temporal feature extraction for optimal model performance.
+- **Statistical Analysis & Modeling:** Conducted advanced statistical analysis including survival analysis, cohort analysis, and customer segmentation using RFM methodology. Developed propensity scoring models for cross-selling and upselling opportunities to maximize customer lifetime value and reduce acquisition costs by 30%.
+- **Business Intelligence & Visualization:** Created comprehensive business intelligence dashboards using Power BI to visualize customer analytics and insights. Developed automated reporting systems and real-time dashboards for marketing teams to track customer lifetime value trends and campaign performance metrics.
+- **Model Validation & Optimization:** Implemented comprehensive model validation frameworks including cross-validation, holdout testing, and business impact assessment. Created automated model retraining, performance monitoring, and optimization strategies to ensure continuous improvement and optimal business results.
 
 ### Inventory Demand Forecasting System
 - **Description:** Created a sophisticated multi-level demand forecasting system that predicts product demand across different time horizons and locations. The system considers seasonal patterns, promotional impacts, and external factors to optimize inventory levels and reduce stockouts while minimizing excess inventory.
