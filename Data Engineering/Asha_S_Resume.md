@@ -2,9 +2,9 @@
 
 **Name:** Asha S  
 **Phone:** +91 98765 43215  
-**Email:** asha.data@example.com  
+**Email:** ashastarhassan@gmail.com  
 **LinkedIn:** linkedin.com/in/asha-data-engineer  
-**Location:** Chennai, Tamil Nadu  
+**Location:** hassan,bengaluru 
 
 ## Professional Summary
 
@@ -83,11 +83,12 @@ Azure Data Factory, Databricks, ADLS Gen2, Azure Monitor, ServiceNow, SQL, Pytho
 
 ## Education
 
-**B.Tech – Computer Science & Engineering**  
-[University Name], 2020
+**B.Tech – Electronics & communication Engineering**  
+[vtu], 2018
 
 ## Certifications
 
 - Microsoft Azure Data Engineer Associate (DP-203)
 - Microsoft Azure Fundamentals (AZ-900)
 - Power BI Data Analyst Associate
+
