@@ -83,12 +83,13 @@ Azure Data Factory, Databricks, ADLS Gen2, Azure Monitor, ServiceNow, SQL, Pytho
 
 ## Education
 
-**B.Tech – Electronics & communication Engineering**  
-[vtu], 2018
+**B.E – Electronics & communication Engineering**  
+[vtu], 2016
 
 ## Certifications
 
 - Microsoft Azure Data Engineer Associate (DP-203)
 - Microsoft Azure Fundamentals (AZ-900)
 - Power BI Data Analyst Associate
+
 
